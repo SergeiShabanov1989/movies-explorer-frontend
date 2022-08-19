@@ -1,14 +1,14 @@
 function Techs() {
   return (
     <>
-      <section className="techs-project">
+      <section className="techs">
         <div className="techs__container">
           <div className="techs__title-container">
             <h2 className="techs__title">Технологии</h2>
           </div>
-          <div className="techs__title-container">
-            <p className="techs__title">7 технологий</p>
-            <p className="techs__text">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
+          <div className="techs__about-container">
+            <p className="techs__about-title">7 технологий</p>
+            <p className="techs__text-text">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
           </div>
           <div className="techs__grid-container">
             <div className="techs__tech-container">

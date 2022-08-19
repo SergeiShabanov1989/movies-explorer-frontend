@@ -1,102 +1,83 @@
-.about-project {
+.techs {
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #FAFAFA;
+  background-color: #F5F5F5;
 }
 
-.about-project__container {
+.techs__container {
   display: flex;
   flex-direction: column;
   width: 1140px;
-  margin: 110px 0;
+  margin: 100px 0;
+  justify-content: center;
+  align-items: center;
 }
 
-.about-project__title-container {
+.techs__title-container {
   display: flex;
   width: 100%;
   border-bottom: 1px black solid;
 }
 
-.about-project__title {
+.techs__title {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 22px;
   line-height: 27px;
+  margin: 0 0 23px;
 }
 
-.about-project__about-container {
+.techs__about-container {
   display: flex;
-  margin: 70px 0 110px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 90px 0 100px;
 }
 
-.about-project__about {
+.techs__about-title {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 50px;
+  line-height: 58px;
   margin: 0 0 25px;
 }
 
-.about-project__text {
+.techs__text-text {
+  max-width: 460px;
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
+  text-align: center;
   margin: 0;
 }
 
-.about-project__week-container {
-  display: flex;
+.techs__grid-container {
+  display: grid;
+  grid-template-columns: repeat(7, 90px);
+  gap: 10px;
 }
 
-.about-project__back-container {
-  flex: 1 1 25%;
-}
-
-.about-project__back-wrapper {
-  background-color: #3456F3;
+.techs__tech-container {
+  background-color: #E8E8E8;
+  border-radius: 10px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.about-project__week-text {
+.techs__tech {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #FFFFFF;
-  margin: 10px 0;
-}
-
-.about-project__week-text_black {
-  color: #000000;
-}
-
-.about-project__front-container {
-  flex: 1 1 75%;
-}
-
-.about-project__front-wrapper {
-  background-color: #F2F2F2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.about-project__set {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 17px;
-  color: #A0A0A0;
-  text-align: center;
-  margin: 15px 0 0;
+  margin: 0;
 }

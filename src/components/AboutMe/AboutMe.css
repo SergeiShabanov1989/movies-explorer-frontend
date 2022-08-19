@@ -1,0 +1,107 @@
+.about-me {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FAFAFA;
+}
+
+.about-me__container {
+  display: flex;
+  flex-direction: column;
+  width: 1140px;
+  margin: 110px 0;
+}
+
+.about-me__title-container {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px black solid;
+}
+
+.about-me__title {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  margin: 0 0 23px;
+}
+
+.about-me__main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 65px 0 0;
+}
+
+.about-me__info-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-me__wrapper {
+  margin: 0 0 100px;
+}
+
+.about-me__name {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  margin: 0;
+}
+
+.about-me__prof {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  margin: 20px 0 25px;
+}
+
+.about-me__text {
+  max-width: 600px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  margin: 0;
+}
+
+.about-me__link-wrapper {
+
+}
+
+.about-me__link {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-decoration: none;
+  color: black;
+}
+
+.about-me__link:first-of-type {
+  margin: 0 20px 0 0;
+}
+
+.about-me__link:hover {
+  opacity: .5;
+}
+
+.about-me__photo-wrapper {
+  width: 270px;
+}
+
+.about-me__photo {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+}
