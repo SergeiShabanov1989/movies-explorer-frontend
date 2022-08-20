@@ -44,6 +44,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all .4s;
+}
+
+.promo__button:hover {
+  opacity: .5;
 }
 
 .promo__title {

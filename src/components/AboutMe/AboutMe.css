@@ -84,6 +84,7 @@
   line-height: 17px;
   text-decoration: none;
   color: black;
+  transition: all .4s;
 }
 
 .about-me__link:first-of-type {

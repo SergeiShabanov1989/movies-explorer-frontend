@@ -1,0 +1,80 @@
+.portfolio {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FAFAFA;
+}
+
+.portfolio__container {
+  display: flex;
+  flex-direction: column;
+  width: 1140px;
+  margin: 0 0 125px;
+}
+
+.portfolio__title-container {
+  display: flex;
+  width: 100%;
+}
+
+.portfolio__title {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  margin: 0;
+  color: #A0A0A0;
+}
+
+.portfolio__project-container {
+  display: flex;
+  flex-direction: column;
+  margin: 50px 0 0;
+}
+
+.portfolio__project-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  text-decoration: none;
+  align-items: center;
+  border-bottom: #E8E8E8 1px solid;
+  padding: 20px 0;
+  transition: all .4s;
+}
+
+.portfolio__project-wrapper:last-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  text-decoration: none;
+  align-items: center;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.portfolio__project-wrapper:first-child {
+  padding-top: 0;
+}
+
+.portfolio__project-wrapper:hover {
+  opacity: .3;
+}
+
+.portfolio__project {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 50px;
+  margin: 0;
+  color: black;
+}
+
+.portfolio__project__link {
+  width: 15px;
+  height: 15px;
+}
