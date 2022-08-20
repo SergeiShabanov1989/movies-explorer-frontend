@@ -1,0 +1,48 @@
+.card-list {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #FAFAFA;
+}
+
+.card-list__container {
+  display: flex;
+  flex-direction: column;
+  width: 1140px;
+  margin: 80px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-list__grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 270px);
+  gap: 20px;
+}
+
+.card-list__pagination-container {
+  margin: 50px 0 0;
+}
+
+.card-list__pagination {
+  width: 320px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  background-color: #F4F4F4;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.card-list__pagination:hover {
+  opacity: .6;
+  box-shadow: 2px 2px 1px black;
+}

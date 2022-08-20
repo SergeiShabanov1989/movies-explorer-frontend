@@ -61,14 +61,19 @@
 
 .search-form__button {
   height: 34px;
-  width: 34px;
+  min-width: 34px;
   margin: 0 0 0 5px;
+  padding: 0;
   border: none;
   border-radius: 50%;
   background-image: url("../../images/find.svg");
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
+}
+
+.search-form__button:hover {
+  opacity: .6;
 }
 
 .search-form__short-wrapper {
