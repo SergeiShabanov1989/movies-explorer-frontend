@@ -7,6 +7,8 @@ import Header from "../Header/Header";
 import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
+import Footer from "../Footer/Footer"
+import NotFound from "../NotFound/NotFound"
 
 function App() {
   return (
@@ -21,18 +23,24 @@ function App() {
         <Route exact path="/">
           <Header />
           <Main />
+          <Footer />
         </Route>
         <Route path="/movies">
           <Header />
           <Movies />
+          <Footer />
         </Route>
         <Route path="/saved-movies">
           <Header />
           <SavedMovies />
+          <Footer />
         </Route>
         <Route path="/profile">
           <Header />
           <Profile />
+        </Route>
+        <Route exact path="*">
+          <NotFound />
         </Route>
       </Switch>
     </>
