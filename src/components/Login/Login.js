@@ -7,8 +7,10 @@ function Login() {
       <section className="login">
         <div className="login__container">
           <div className="login__title-container">
-            <img src={logo} className="login__logo header__logo" alt="логотип сайта"/>
-            <h2 className="login__title">Добро пожаловать!</h2>
+            <Link to="/" className="login__logo-link">
+              <img src={logo} className="login__logo header__logo" alt="логотип сайта"/>
+            </Link>
+            <h2 className="login__title">Рады видеть!</h2>
           </div>
           <form className="login__form">
             <label htmlFor="email" className="login__label">E-mail</label>

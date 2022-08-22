@@ -16,7 +16,7 @@ function AboutMe() {
                 <p className="about-me__text">Я родился в г. Оренбурге, в 2018 году переехал в Москву, здесь и живу. Я люблю слушать музыку, а ещё увлекаюсь фитнесом. Недавно начал кодить. С 2018 года работал инженером в научном центре министерства здравоохранения. Сейчас прохожу курс по веб-разработке.</p>
               </div>
               <div className="about-me__link-wrapper">
-                <a href="facebook.com" className="about-me__link" target="_blank">Facebook</a>
+                <a href="https://facebook.com/" className="about-me__link" target="_blank">Facebook</a>
                 <a href="https://github.com/SergeiShabanov1989" className="about-me__link" target="_blank">Github</a>
               </div>
             </div>

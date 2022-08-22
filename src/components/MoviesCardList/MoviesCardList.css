@@ -62,3 +62,23 @@
     margin: 50px 0 0;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .card-list__container {
+    width: 300px;
+    margin: 40px 0 80px;
+  }
+
+  .card-list__grid-container {
+    grid-template-columns: repeat(1, 300px);
+    gap: 35px;
+  }
+
+  .card-list__pagination-container {
+    margin: 50px 0 0;
+  }
+
+  .card-list__pagination {
+    width: 240px;
+  }
+}

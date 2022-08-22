@@ -127,14 +127,49 @@
   text-decoration: none;
 }
 
-@media screen and (max-width: 1279px) {
+@media screen and (max-width: 767px) {
+  .login__container {
+    width: 260px;
+  }
+
+  .login__title-container {
+    align-items: center;
+    margin: 0 0 80px;
+  }
+
+  .login__title {
+    margin: 50px 0 0;
+  }
+
+  .login__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .login__button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 267px 0 0;
+  }
+
+  .login__button {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .login__signin-text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
   .login__signup {
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 17px;
-    color: #3456F3;
-    text-decoration: none;
+    font-size: 12px;
+    line-height: 15px;
   }
 }
+

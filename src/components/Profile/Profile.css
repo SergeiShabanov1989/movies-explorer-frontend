@@ -85,3 +85,31 @@
 .profile__button-wrapper {
   margin-top: 15px;
 }
+
+@media screen and (max-width: 767px) {
+  .profile__container {
+    width: 260px;
+    margin: 70px 0 40px;
+  }
+
+  .profile__name-container {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .profile__name-container:first-of-type {
+    margin-top: 80px;
+  }
+
+  .profile__button-container {
+    margin: 380px 0 0;
+  }
+
+  .profile__button {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
