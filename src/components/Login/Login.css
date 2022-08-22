@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   width: 395px;
-  margin: 70px 0;
+  height: 100vh;
   justify-content: center;
   align-items: center;
 }
@@ -125,4 +125,16 @@
   line-height: 17px;
   color: #3456F3;
   text-decoration: none;
+}
+
+@media screen and (max-width: 1279px) {
+  .login__signup {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #3456F3;
+    text-decoration: none;
+  }
 }

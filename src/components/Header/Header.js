@@ -15,7 +15,7 @@ function Header() {
               alt="логотип сайта"
               className="header__logo"/>
             </Link>
-            <div className="header__button-container">
+            <div className="header__button-container header__button-container_burger">
               <Link to='/movies' className="header__link">Фильмы</Link>
               <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
               <Link to='/profile' className="header__link-account">
@@ -25,6 +25,9 @@ function Header() {
                 </div>
               </Link>
             </div>
+          <div className="header__burger">
+            <span></span>
+          </div>
           </div>
         </header>
       </Route>
@@ -37,7 +40,7 @@ function Header() {
                 alt="логотип сайта"
                 className="header__logo"/>
             </Link>
-            <div className="header__button-container">
+            <div className="header__button-container header__button-container_burger">
               <Link to='/movies' className="header__link">Фильмы</Link>
               <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
               <Link to='/profile' className="header__link-account">
@@ -46,6 +49,9 @@ function Header() {
                   <img className="header__button-img" alt="аватар" src={account} />
                 </div>
               </Link>
+            </div>
+            <div className="header__burger">
+              <span></span>
             </div>
           </div>
         </header>
@@ -59,7 +65,7 @@ function Header() {
                 alt="логотип сайта"
                 className="header__logo"/>
             </Link>
-            <div className="header__button-container">
+            <div className="header__button-container header__button-container_burger">
               <Link to='/movies' className="header__link">Фильмы</Link>
               <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
               <Link to='/profile' className="header__link-account">
@@ -68,6 +74,9 @@ function Header() {
                   <img className="header__button-img" alt="аватар" src={account} />
                 </div>
               </Link>
+            </div>
+            <div className="header__burger">
+              <span></span>
             </div>
           </div>
         </header>

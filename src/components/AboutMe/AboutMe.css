@@ -106,3 +106,104 @@
   object-position: center;
   border-radius: 10px;
 }
+
+@media screen and (max-width: 1279px) {
+  .about-me__container {
+    width: 668px;
+    margin: 90px 0;
+  }
+
+  .about-me__title {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    margin: 0 0 23px;
+  }
+
+  .about-me__wrapper {
+    margin: 0 0 90px;
+  }
+
+  .about-me__name {
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  .about-me__prof {
+    font-size: 12px;
+    line-height: 18px;
+    margin: 15px 0 20px;
+  }
+
+  .about-me__text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .about-me__photo-wrapper {
+    width: 255px;
+    margin: 0 0 0 50px;
+  }
+
+  .about-me__photo {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-me__container {
+    width: 292px;
+    margin: 70px 0;
+  }
+
+  .about-me__title {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 0 0 28px;
+  }
+
+  .about-me__main-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .about-me__wrapper {
+    margin: 0 0 40px;
+  }
+
+  .about-me__name {
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .about-me__prof {
+    font-size: 11px;
+    line-height: 16px;
+    margin: 20px 0;
+  }
+
+  .about-me__text {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .about-me__photo-wrapper {
+    order: -1;
+    width: 100%;
+    margin: 0 0 40px;
+  }
+
+  .about-me__photo {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+  }
+}

@@ -3,7 +3,6 @@ import { Route, Switch } from 'react-router-dom';
 import { movies, favoriteMovies } from "../../utils/utils";
 
 function MoviesCardList() {
-  console.log(movies)
   return (
     <>
       <section className="card-list">

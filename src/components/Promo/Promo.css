@@ -70,3 +70,64 @@
   opacity: .5;
   max-width: 310px;
 }
+
+@media screen and (max-width: 1279px) {
+  .promo__container {
+    flex-direction: column;
+    align-items: center;
+    width: 668px;
+    margin: 140px 0 75px;
+  }
+
+  .promo__info-container {
+    display: flex;
+    order: 2;
+    flex-direction: column;
+    align-items: center;
+    max-width: 668px;
+  }
+
+  .promo__logo-wrapper {
+    order: 1;
+    margin-bottom: 50px;
+  }
+
+  .promo__title {
+    font-size: 40px;
+    line-height: 50px;
+    text-align: center;
+  }
+
+  .promo__text {
+    margin: 20px 0 90px;
+    max-width: 260px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .promo__container {
+    width: 300px;
+    margin: 70px 0 30px;
+  }
+
+  .promo__info-container {
+    max-width: 300px;
+  }
+
+  .promo__logo-wrapper {
+    width: 210px;
+    height: 205px;
+    order: 1;
+    margin-bottom: 45px;
+  }
+
+  .promo__title {
+    font-size: 30px;
+    line-height: 38px;
+    text-align: center;
+  }
+
+  .promo__text {
+    margin: 25px 0 80px;
+  }
+}
