@@ -1,5 +1,4 @@
 .techs {
-  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -117,6 +116,10 @@
 }
 
 @media screen and (max-width: 767px) {
+  .techs {
+    background-color: #FAFAFA;
+  }
+
   .techs__container {
     width: 284px;
     margin: 70px 0;

@@ -1,5 +1,4 @@
 .portfolio {
-  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,9 +28,11 @@
 }
 
 .portfolio__project-container {
+  list-style: none;
   display: flex;
   flex-direction: column;
   margin: 50px 0 0;
+  padding: 0;
 }
 
 .portfolio__project-wrapper {

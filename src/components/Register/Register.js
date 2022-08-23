@@ -1,7 +1,32 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logoheader.png"
 
-function Register() {
+function Register(props) {
+  const [useFormParams, setFormParams] = React.useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormParams((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, password } = useFormParams;
+
+    props.handleRegister({ name, email, password })
+      .catch(err => {
+        console.log(err.message)
+      })
+  }
+
   return (
     <>
       <section className="register">
@@ -12,7 +37,7 @@ function Register() {
             </Link>
             <h2 className="register__title">Добро пожаловать!</h2>
           </div>
-          <form className="register__form">
+          <form className="register__form" onSubmit={handleSubmit}>
             <label htmlFor="name" className="register__label">Имя</label>
             <input
               className="register__input"
@@ -21,6 +46,7 @@ function Register() {
               id="name"
               type="text"
               placeholder="Имя"
+              onChange={handleChange}
             />
             <div className="register__error-wrapper">
               <span className="register__error"></span>
@@ -33,6 +59,7 @@ function Register() {
               id="email"
               type="email"
               placeholder="E-mail"
+              onChange={handleChange}
             />
             <div className="register__error-wrapper">
               <span className="register__error"></span>
@@ -45,6 +72,7 @@ function Register() {
               id="password"
               type="password"
               placeholder="Пароль"
+              onChange={handleChange}
             />
             <div className="register__error-wrapper">
               <span className="register__error">Что-то пошло не так...</span>

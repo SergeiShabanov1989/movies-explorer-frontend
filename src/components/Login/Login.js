@@ -1,7 +1,33 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logoheader.png"
 
-function Login() {
+function Login(props) {
+  const [useFormParams, setFormParams] = React.useState({
+    email: '',
+    password: ''
+  });
+
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormParams((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!useFormParams.email || !useFormParams.password){
+      return;
+    }
+    props.handleLogin({ email: useFormParams.email, password: useFormParams.password })
+      .catch(err => {
+        console.log(err.message);
+      });
+  }
+
   return (
     <>
       <section className="login">
@@ -12,7 +38,7 @@ function Login() {
             </Link>
             <h2 className="login__title">Рады видеть!</h2>
           </div>
-          <form className="login__form">
+          <form className="login__form" onSubmit={handleSubmit}>
             <label htmlFor="email" className="login__label">E-mail</label>
             <input
               className="login__input"
@@ -21,6 +47,7 @@ function Login() {
               id="email"
               type="email"
               placeholder="E-mail"
+              onChange={handleChange}
             />
             <div className="login__error-wrapper">
               <span className="login__error"></span>
@@ -33,6 +60,7 @@ function Login() {
               id="password"
               type="password"
               placeholder="Пароль"
+              onChange={handleChange}
             />
             <div className="login__error-wrapper">
               <span className="login__error"></span>
