@@ -1,14 +1,14 @@
 import React from "react";
 import { Switch, Route } from 'react-router-dom';
 import Main from "../Main/Main";
-import Movies from "../Movies/Movies"
+import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Header from "../Header/Header";
 import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
-import Footer from "../Footer/Footer"
-import NotFound from "../NotFound/NotFound"
+import Footer from "../Footer/Footer";
+import NotFound from "../NotFound/NotFound";
 
 function App() {
   return (
