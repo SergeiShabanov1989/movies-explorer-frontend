@@ -46,13 +46,14 @@
   margin: 0;
 }
 
-.profile__text {
+.profile__input {
+  background: transparent;
+  border: none;
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
-  margin: 0;
 }
 
 .profile__button-container {
@@ -72,6 +73,10 @@
   padding: 0;
   cursor: pointer;
   transition: all .4s;
+}
+
+.profile__button_disabled {
+  visibility: hidden;
 }
 
 .profile__button_red {

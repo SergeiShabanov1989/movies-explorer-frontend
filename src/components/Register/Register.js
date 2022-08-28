@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logoheader.png"
 
-function Register(props) {
+const Register = (props) => {
   const [useFormParams, setFormParams] = React.useState({
     name: '',
     email: '',

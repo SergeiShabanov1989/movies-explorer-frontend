@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../images/logoheader.png"
 
-function Login(props) {
+const Login = (props) => {
   const [useFormParams, setFormParams] = React.useState({
     email: '',
     password: ''
@@ -47,6 +47,7 @@ function Login(props) {
               id="email"
               type="email"
               placeholder="E-mail"
+              value={useFormParams.email}
               onChange={handleChange}
             />
             <div className="login__error-wrapper">
@@ -60,6 +61,7 @@ function Login(props) {
               id="password"
               type="password"
               placeholder="Пароль"
+              value={useFormParams.password}
               onChange={handleChange}
             />
             <div className="login__error-wrapper">
