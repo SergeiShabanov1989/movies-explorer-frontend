@@ -110,7 +110,7 @@ function App() {
           <Register handleRegister={handleRegister}/>
         </Route>
         <Route exact path="/">
-          <Header />
+          <Header loggedIn={loggedIn}/>
           <Main />
           <Footer />
         </Route>

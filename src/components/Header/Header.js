@@ -3,7 +3,7 @@ import account from "../../images/account.svg";
 import { Route, Switch, Link } from 'react-router-dom';
 import React from "react";
 
-function Header() {
+function Header(props) {
   return (
     <Switch>
       <Route path='/movies'>
@@ -90,12 +90,22 @@ function Header() {
                 alt="логотип сайта"
                 className="header__logo"/>
             </Link>
-            <div className="header__button-container">
+            {props.loggedIn === false ? <div className="header__button-container">
               <Link to='/signup' className="header__link-signup">Регистрация</Link>
               <Link to='/signin' className="header__link-signin">
                 <button className="header__link-button" type="button">Войти</button>
               </Link>
-            </div>
+            </div> :
+              <div className="header__button-container header__button-container_burger">
+                <Link to='/movies' className="header__link">Фильмы</Link>
+                <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
+                <Link to='/profile' className="header__link-account">
+                  <p className="header__button-text" type="button">Аккаунт</p>
+                  <div className="header__button-wrapper">
+                    <img className="header__button-img" alt="аватар" src={account} />
+                  </div>
+                </Link>
+              </div>}
           </div>
         </header>
       </Route>
