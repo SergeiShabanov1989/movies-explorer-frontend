@@ -96,6 +96,7 @@ function Header(props) {
                 <button className="header__link-button" type="button">Войти</button>
               </Link>
             </div> :
+              <>
               <div className="header__button-container header__button-container_burger">
                 <Link to='/movies' className="header__link">Фильмы</Link>
                 <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
@@ -105,7 +106,11 @@ function Header(props) {
                     <img className="header__button-img" alt="аватар" src={account} />
                   </div>
                 </Link>
-              </div>}
+              </div>
+              <div className="header__burger">
+                <span></span>
+              </div>
+              </>}
           </div>
         </header>
       </Route>

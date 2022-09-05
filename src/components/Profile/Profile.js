@@ -1,14 +1,22 @@
-import { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 
 function Profile(props) {
   const { currentUser } = useContext(CurrentUserContext);
-  const[isButtonDisabled, setButtonDisabled] = useState(true);
+  const[isEditButtonVisible, setEditButtonVisible] = useState(false);
+  const [isDisabledInput, setDisabledInput] = useState(true);
+  const [isDisabledButton, setDisabledButton] = useState(true);
   const [dataUser, setDataUser] = useState({
     name: '',
     email: '',
   });
+
+  const handleEditVisible = () => {
+
+    setDisabledInput(false)
+    setEditButtonVisible(true)
+  }
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -16,22 +24,27 @@ function Profile(props) {
       ...prev,
       [name]: value
     }));
-    if (dataUser.name !== currentUser.name || dataUser.email !== currentUser.email) {
-      setButtonDisabled(false)
+    if (e.target.value === currentUser.name || e.target.value === currentUser.email) {
+      setDisabledButton(true)
     } else {
-      setButtonDisabled(true)
+      setDisabledButton(false)
     }
-    console.log(dataUser)
+
+    console.log(isDisabledButton)
   }
 
   function handleSubmit(e) {
     const { name, email } = dataUser;
     e.preventDefault();
 
-    props.onUpdateUser({
-      name: name,
-      email: email,
-    });
+    if (!isDisabledButton) {
+      props.onUpdateUser({
+        name: name,
+        email: email,
+      });
+      setDisabledInput(true)
+      setEditButtonVisible(false)
+    }
   }
 
   useEffect(() => {
@@ -44,35 +57,47 @@ function Profile(props) {
   return (
     <>
       <section className="profile">
-        <form className="profile__container" onSubmit={handleSubmit}>
-          <h2 className="profile__title">{`Привет, ${currentUser.name}!`}</h2>
-          <div className="profile__name-container">
-            <p className="profile__name-text">Имя</p>
-            <input
-              className="profile__input"
-              name="name"
-              type="text"
-              placeholder="Имя"
-              defaultValue={currentUser.name}
-              onChange={handleChange}/>
-          </div>
-          <div className="profile__name-container">
-            <p className="profile__name-text">E-mail</p>
-            <input
-              className="profile__input"
-              name="email"
-              type="email"
-              placeholder="E-mail"
-              defaultValue={currentUser.email}
-              onChange={handleChange}/>
-          </div>
-          <div className="profile__button-container">
-            <button className={`profile__button ${isButtonDisabled ? 'profile__button_disabled' : ''}`} type="submit">Редактировать</button>
-            <Link to="/" className="profile__button-wrapper">
-              <button className="profile__button profile__button_red" type="button" onClick={props.signOut}>Выйти из аккаунта</button>
-            </Link>
-          </div>
-        </form>
+        <div className="profile__container">
+          <form className="profile__from" id="profileForm" onSubmit={handleSubmit}>
+            <h2 className="profile__title">{`Привет, ${currentUser.name}!`}</h2>
+            <div className="profile__name-container">
+              <p className="profile__name-text">Имя</p>
+              <input
+                className="profile__input"
+                disabled={isDisabledInput}
+                name="name"
+                type="text"
+                placeholder="Имя"
+                defaultValue={currentUser.name}
+                onChange={handleChange}/>
+            </div>
+            <div className="profile__name-container">
+              <p className="profile__name-text">E-mail</p>
+              <input
+                className="profile__input"
+                disabled={isDisabledInput}
+                name="email"
+                type="email"
+                placeholder="E-mail"
+                onChange={handleChange}
+                defaultValue={currentUser.email}/>
+            </div>
+            {isEditButtonVisible && <div className="profile__button-container">
+              <button type="submit" className={`profile__button-save ${isDisabledButton ? 'profile__button-save_disabled' : ''}`} form="profileForm">Сохранить</button>
+            </div>}
+          </form>
+            {!isEditButtonVisible &&
+              <>
+                <div className="profile__button-container">
+                  <button className="profile__button" onClick={handleEditVisible}>Редактировать</button>
+                  <Link to="/" className="profile__button-wrapper">
+                  <button className="profile__button profile__button_red" type="button" onClick={props.signOut}>Выйти изаккаунта
+                  </button>
+                  </Link>
+                </div>
+              </>
+            }
+        </div>
       </section>
     </>
   );

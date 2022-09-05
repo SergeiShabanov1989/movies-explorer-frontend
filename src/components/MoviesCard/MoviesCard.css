@@ -18,11 +18,11 @@
 .movies-card__title-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin: 10px 0 5px;
   width: 100%;
   border-bottom: #E8E8E8 1px solid;
-  padding-bottom: 25px;
+  height: 35px;
 }
 
 .movies-card__title {
@@ -43,6 +43,10 @@
   margin: 0;
   padding: 0;
   cursor: pointer;
+}
+
+.movies-card__favorite_active {
+  background: url("../../images/favoriteactive.svg") center no-repeat;
 }
 
 .movies-card__favorite_delete {
@@ -98,7 +102,6 @@
 
   .movies-card__title-container {
     margin: 15px 0 5px;
-    padding-bottom: 30px;
   }
 
   .movies-card__title {

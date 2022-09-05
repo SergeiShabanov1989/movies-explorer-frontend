@@ -26,13 +26,6 @@ class MainApi {
       .then(this._checkResponse)
   }
 
-  getInitialCards() {
-    return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headerWithJwt()
-    })
-      .then(this._checkResponse)
-  }
-
   editProfile(name, email) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
@@ -45,58 +38,38 @@ class MainApi {
       .then(this._checkResponse)
   }
 
-  addCard(name, link) {
-    return fetch(`${this._baseUrl}/cards`, {
+  getSaveFilm(movie) {
+    return fetch(`${this._baseUrl}/movies`, {
       method: "POST",
       headers: this._headerWithJwt(),
       body: JSON.stringify({
-        name,
-        link
+        country: movie.country || 'Нет данных',
+        director: movie.director || 'Нет данных',
+        duration: movie.duration || 0,
+        year: movie.year || 'Нет данных',
+        description: movie.description,
+        image: `https://api.nomoreparties.co${movie.image.url}`,
+        trailerLink: movie.trailerLink || 'https://www.youtube.com',
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN,
+        thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+        movieId: movie.id,
       })
     })
       .then(this._checkResponse)
   }
 
-  deleteCard(id) {
-    return fetch(`${this._baseUrl}/cards/${id}`, {
-      method: "DELETE",
-      headers: this._headerWithJwt()
-    })
-      .then(this._checkResponse)
-  }
-
-  deleteLike(id) {
-    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-      method: "DELETE",
-      headers: this._headerWithJwt()
-    })
-      .then(this._checkResponse)
-  }
-
-  addLike(id) {
-    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-      method: "PUT",
-      headers: this._headerWithJwt()
-    })
-      .then(this._checkResponse)
-  }
-
-  changeLikeCardStatus(id, like) {
-    this.methodName = like ? "PUT" : "DELETE";
-    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-      method: this.methodName,
-      headers: this._headerWithJwt()
-    })
-      .then(this._checkResponse)
-  }
-
-  editAvatar(avatar) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
+  getFilms() {
+    return fetch(`${this._baseUrl}/movies`, {
       headers: this._headerWithJwt(),
-      body: JSON.stringify({
-        avatar
-      })
+    })
+      .then((res) => this._checkResponse(res))
+  }
+
+  deleteMovie(id) {
+    return fetch(`${this._baseUrl}/movies/${id}`, {
+      method: "DELETE",
+      headers: this._headerWithJwt()
     })
       .then(this._checkResponse)
   }

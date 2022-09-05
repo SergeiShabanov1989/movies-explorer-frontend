@@ -15,6 +15,14 @@
   align-items: center;
 }
 
+.profile__from {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .profile__title {
   font-family: 'Inter';
   font-style: normal;
@@ -54,10 +62,14 @@
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
+  text-align: right;
 }
 
 .profile__button-container {
+  width: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   margin: 220px 0 0;
 }
@@ -89,6 +101,33 @@
 
 .profile__button-wrapper {
   margin-top: 15px;
+}
+
+.profile__button-save {
+  width: 100%;
+  height: 45px;
+  background: #3456F3;
+  border-radius: 3px;
+  border: none;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #FFFFFF;
+  padding: 0;
+  cursor: pointer;
+  transition: all .4s;
+  margin: 0 0 15px;
+}
+
+.profile__button-save_disabled {
+  background: rgba(52, 86, 243, .3);
+  cursor: default;
+}
+
+.profile__button-save_disabled:hover {
+  opacity: 1;
 }
 
 @media screen and (max-width: 767px) {

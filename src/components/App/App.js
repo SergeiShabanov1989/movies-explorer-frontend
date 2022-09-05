@@ -11,22 +11,39 @@ import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
 import NotFound from "../NotFound/NotFound";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import Popup from "../Popup/Popup";
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as auth from '../../utils/auth.js';
 import {mainApi} from '../../utils/MainApi';
+import * as fetchMovies from "../../utils/MoviesApi";
+import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 
 function App() {
+  const width = useCurrentWidth();
   const [currentUser, setCurrentUser] = useState({
     name: '',
     email: '',
   });
   const [loggedIn, setLoggedIn] = useState(undefined);
-  const [userData, setUserData] = useState();
   const history = useHistory();
+
+    // стейты для фильмов
+  const saved = true;
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [initialMovies, setInitialMovies] = useState([]);
+  const [isLoadListMovies, setIsLoadListMovies] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [isSearchQuery, setSearchQuery] = useState(false);
+  const [visibleMovieCount, setVisibleMovieCount] = useState(getInitialCount(width));
+  const [shortMovie, setShortMovie] = useState(false);
 
   useEffect(() => {
     tokenCheck();
+    getSavedMovies();
+    checkLocalStorage()
   }, []);
 
   useEffect(() => {
@@ -42,9 +59,11 @@ function App() {
   const handleRegister = ({ name, email, password }) => {
     return auth.register(name, email, password).then(() => {
       history.push('/signin');
-      // setInfoTooltipSuccessOpen(true)
+      setShowPopup(true);
+      setErrorMessage('Регистрация прошла успешно!');
     }).catch(() => {
-      // setInfoTooltipUnsuccessOpen(true);
+      setShowPopup(true);
+      setErrorMessage('Ошибка при регистрации :(');
     });
   }
 
@@ -54,6 +73,7 @@ function App() {
         if (data.token) {
           localStorage.setItem('token', data.token);
           setLoggedIn(true);
+          checkLocalStorage();
           history.push('/');
         }
       }).catch(() => {
@@ -72,14 +92,8 @@ function App() {
     if (localStorage.getItem('token')){
       const token = localStorage.getItem('token');
       auth.getContent(token).then((res) => {
-        let userData = {};
         if (res) {
-          userData = {
-            name: res.name,
-            email: res.email,
-          }
           setLoggedIn(true);
-          setUserData(userData);
         }
       }).catch(console.log)
     } else {
@@ -90,15 +104,154 @@ function App() {
   const signOut = () => {
     localStorage.removeItem('token');
     setLoggedIn(false);
-    setUserData(null);
     history.push('/');
   }
 
-  // React.useEffect(() => {
-  //   if (loggedIn) {
-  //     history.push("/");
-  //   }
-  // }, [loggedIn]);
+  //---------------логика работы фильмов------------
+
+  function loadMovie (width) {
+    if (width >= 1280) {
+      return 3;
+    }
+    if (width >= 768) {
+      return 2;
+    }
+    return 2;
+  }
+
+  function getInitialCount (width) {
+    if (width >= 1280) {
+      return 12;
+    }
+    if (width >= 768) {
+      return 8;
+    }
+    return 5;
+  }
+
+  function loadMoviesMore () {
+    setVisibleMovieCount((prevCount) => prevCount + loadMovie(width));
+  }
+
+  function filterMovies(searchQuery, movies) {
+    const allFoundMovies = movies.filter((movie) =>
+        movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    allFoundMovies.filter((film) => film.duration <= 40);
+    checkIsSearchSuccessful(allFoundMovies);
+    localStorage.setItem("allFoundMovies", JSON.stringify(allFoundMovies));
+    localStorage.setItem("searchQuery", searchQuery);
+    localStorage.setItem("shortMovie", shortMovie);
+    setFilteredMovies(
+      shortMovie
+        ? allFoundMovies.filter((film) => film.duration <= 40)
+        : allFoundMovies
+    );
+  }
+
+  function handleShortMovieBtn() {
+    if (shortMovie) {
+      setFilteredMovies(
+        JSON.parse(localStorage.getItem("allFoundMovies")).filter(
+          (film) => film.duration <= 40
+        )
+      );
+    } else {
+      setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
+    }
+  }
+
+  function handleShortMovieBtnOnSavedMoviesPage() {
+    if (shortMovie) {
+      setSavedMovies(
+        JSON.parse(localStorage.getItem("savedMovies")).filter(
+          (film) => film.duration <= 40
+        )
+      );
+    } else {
+      setSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
+    }
+  }
+
+  function checkLocalStorage() {
+    if (localStorage.allFoundMovies) {
+      setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
+    } else {
+      setFilteredMovies([]);
+    }
+  }
+
+  function checkIsSearchSuccessful(movies) {
+    if (movies.length === 0) {
+      setShowPopup(true);
+      setErrorMessage('Ничего не найдено')
+    } else {
+      setShowPopup(false);
+      setErrorMessage('')
+    }
+  }
+
+  function searchSavedMovies(searchQuery) {
+    const filteredSavedMovies = savedMovies.filter((film) =>
+      film.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    checkIsSearchSuccessful(filteredSavedMovies);
+    setSavedMovies(filteredSavedMovies);
+  }
+
+  function searchMovies(searchQuery) {
+    if (searchQuery.length === 0) {
+      setSearchQuery(true);
+      return;
+    } else {
+      setSearchQuery(false);
+    }
+    if (initialMovies.length === 0) {
+      setIsLoadListMovies(true);
+      fetchMovies.getMovies()
+        .then((movies) => {
+          filterMovies(searchQuery, movies);
+          setInitialMovies(movies);
+        })
+        .catch(() => {
+          setShowPopup(true);
+          setErrorMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+        })
+        .finally(() => {
+          setIsLoadListMovies(false);
+        });
+    } else {
+      filterMovies(searchQuery, initialMovies);
+    }
+  }
+
+  function saveMovie(movie) {
+    mainApi.getSaveFilm(movie)
+      .then((savedMovie) => setSavedMovies([savedMovie, ...savedMovies]))
+      .catch((err) => console.log(err));
+  }
+
+  function deleteMovie(id) {
+    mainApi.deleteMovie(id)
+      .then(() => {
+        setSavedMovies((state) => state.filter((movie) => movie._id !== id));
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function deleteMovieFromMovies(id) {
+    const movieDeleted = savedMovies.find((movie) => movie.movieId === id);
+    deleteMovie(movieDeleted._id);
+  }
+
+  function getSavedMovies() {
+    mainApi.getFilms()
+      .then((savedMovies) => {
+        setSavedMovies(savedMovies);
+        localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+      })
+      .catch((err) => console.log(err));
+  }
 
   return (
     <CurrentUserContext.Provider value={{ currentUser }}>
@@ -116,12 +269,35 @@ function App() {
         </Route>
         <ProtectedRoute exact path="/movies" loggedIn={loggedIn}>
           <Header />
-          <Movies />
+          <Movies
+            isSearchQuery={isSearchQuery}
+            setShortMovie={setShortMovie}
+            searchSubmit={searchMovies}
+            filteredMovies={filteredMovies}
+            loadMoviesMore={loadMoviesMore}
+            visibleMovieCount={visibleMovieCount}
+            handleShortMovieBtn={handleShortMovieBtn}
+            isLoadListMovies={isLoadListMovies}
+            deleteMovieFromMovies={deleteMovieFromMovies}
+            saveMovie={saveMovie}
+            savedMovies={savedMovies}/>
           <Footer />
         </ProtectedRoute>
         <ProtectedRoute exact path="/saved-movies" loggedIn={loggedIn}>
           <Header />
-          <SavedMovies />
+          <SavedMovies
+            isSearchQuery={isSearchQuery}
+            searchSubmit={searchSavedMovies}
+            isLoadListMovies={isLoadListMovies}
+            handleShortMovieBtn={handleShortMovieBtnOnSavedMoviesPage}
+            setShortMovie={setShortMovie}
+            filteredMovies={filteredMovies}
+            loadMoviesMore={loadMoviesMore}
+            visibleMovieCount={visibleMovieCount}
+            deleteMovie={deleteMovie}
+            saveMovie={saveMovie}
+            savedMovies={savedMovies}
+            saved={saved}/>
           <Footer />
         </ProtectedRoute>
         <ProtectedRoute exact path="/profile" loggedIn={loggedIn}>
@@ -132,6 +308,7 @@ function App() {
           <NotFound />
         </Route>
       </Switch>
+      {showPopup && <Popup setShowPopup={setShowPopup} errorMessage={errorMessage}/>}
     </CurrentUserContext.Provider>
   );
 }

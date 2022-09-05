@@ -1,35 +1,64 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
-import { Route, Switch } from 'react-router-dom';
-import { movies, favoriteMovies } from "../../utils/utils";
+import Preloader from "../Preloader/Preloader";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import {useContext} from "react";
 
-function MoviesCardList() {
+function MoviesCardList(props) {
+  const currentUser = useContext(CurrentUserContext);
+
+  const savedMoviesFilteredByOwner = props.savedMovies.filter(
+    (film) => {
+      return film.owner === currentUser.currentUser._id;
+    }
+  );
+  const moviesArray = props.saved ? savedMoviesFilteredByOwner : props.filteredMovies;
+
+  const isMovieLiked = (id) => {
+    const isLiked = savedMoviesFilteredByOwner.find((savedMovie) => {
+      return savedMovie.movieId === id;
+    });
+
+    return Boolean(isLiked);
+  };
+
+  function loadMoviesMore() {
+    props.loadMoviesMoreBtn();
+  }
+
   return (
     <>
       <section className="card-list">
         <div className="card-list__container">
-          <Switch>
-            <Route path="/movies">
+          {props.isLoadListMovies ?
+              <Preloader/> :
               <div className="card-list__grid-container">
                 {
-                  movies.map((movie) => (
-                    <MoviesCard {...movie}/>
+                  moviesArray.slice(0, props.visibleMovieCount).map((movie) => (
+                    <MoviesCard
+                      picture={`${
+                        props.saved
+                          ? movie.image
+                          : `https://api.nomoreparties.co${movie.image.url}`
+                      } `}
+                      title={movie.nameRU}
+                      duration={movie.duration}
+                      key={movie.id || movie.movieId}
+                      saveMovie={props.saveMovie}
+                      movie={movie}
+                      saved={props.saved}
+                      deleteMovie={props.deleteMovie}
+                      trailerLink={movie.trailerLink}
+                      isLiked={isMovieLiked(movie.id)}
+                      deleteMovieFromMovies={props.deleteMovieFromMovies}
+                    />
                   ))
                 }
               </div>
-              <div className="card-list__pagination-container">
-                <button className="card-list__pagination" type="button">Ещё</button>
-              </div>
-            </Route>
-            <Route path="/saved-movies">
-              <div className="card-list__grid-container">
-                {
-                  favoriteMovies.map((movie) => (
-                    <MoviesCard {...movie}/>
-                  ))
-                }
-              </div>
-            </Route>
-          </Switch>
+            }
+          {props.visibleMovieCount < moviesArray.length && props.isSearchSuccessful &&
+            <div className="card-list__pagination-container">
+            <button className="card-list__pagination" onClick={loadMoviesMore} type="button">Ещё</button>
+          </div>}
         </div>
       </section>
     </>
