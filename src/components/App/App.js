@@ -12,6 +12,7 @@ import Footer from "../Footer/Footer";
 import NotFound from "../NotFound/NotFound";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Popup from "../Popup/Popup";
+import Menu from "../Menu/Menu";
 
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as auth from '../../utils/auth.js';
@@ -34,6 +35,7 @@ function App() {
   const [initialMovies, setInitialMovies] = useState([]);
   const [isLoadListMovies, setIsLoadListMovies] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [savedMovies, setSavedMovies] = useState([]);
   const [isSearchQuery, setSearchQuery] = useState(false);
@@ -263,12 +265,12 @@ function App() {
           <Register handleRegister={handleRegister}/>
         </Route>
         <Route exact path="/">
-          <Header loggedIn={loggedIn}/>
+          <Header loggedIn={loggedIn} setShowMenu={setShowMenu}/>
           <Main />
           <Footer />
         </Route>
         <ProtectedRoute exact path="/movies" loggedIn={loggedIn}>
-          <Header />
+          <Header setShowMenu={setShowMenu}/>
           <Movies
             isSearchQuery={isSearchQuery}
             setShortMovie={setShortMovie}
@@ -284,7 +286,7 @@ function App() {
           <Footer />
         </ProtectedRoute>
         <ProtectedRoute exact path="/saved-movies" loggedIn={loggedIn}>
-          <Header />
+          <Header setShowMenu={setShowMenu}/>
           <SavedMovies
             isSearchQuery={isSearchQuery}
             searchSubmit={searchSavedMovies}
@@ -301,7 +303,7 @@ function App() {
           <Footer />
         </ProtectedRoute>
         <ProtectedRoute exact path="/profile" loggedIn={loggedIn}>
-          <Header />
+          <Header setShowMenu={setShowMenu}/>
           <Profile signOut={signOut} onUpdateUser={onUpdateUser}/>
         </ProtectedRoute>
         <Route exact path="*">
@@ -309,6 +311,7 @@ function App() {
         </Route>
       </Switch>
       {showPopup && <Popup setShowPopup={setShowPopup} errorMessage={errorMessage}/>}
+      {showMenu && <Menu setShowMenu={setShowMenu} errorMessage={errorMessage}/>}
     </CurrentUserContext.Provider>
   );
 }

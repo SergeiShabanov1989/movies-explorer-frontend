@@ -3,9 +3,9 @@ import close from "../../images/CloseIcon.svg"
 import account from "../../images/account.svg";
 import React from "react";
 
-function Menu({setShowPopup, errorMessage}) {
+function Menu({setShowMenu}) {
   const onClose = () => {
-    setShowPopup(false)
+    setShowMenu(false)
   }
 
   return (

@@ -4,6 +4,10 @@ import { Route, Switch, Link } from 'react-router-dom';
 import React from "react";
 
 function Header(props) {
+  const openMenu = () => {
+    props.setShowMenu(true);
+  }
+
   return (
     <Switch>
       <Route path='/movies'>
@@ -25,7 +29,7 @@ function Header(props) {
                 </div>
               </Link>
             </div>
-          <div className="header__burger">
+          <div className="header__burger" onClick={openMenu}>
             <span></span>
           </div>
           </div>
@@ -50,7 +54,7 @@ function Header(props) {
                 </div>
               </Link>
             </div>
-            <div className="header__burger">
+            <div className="header__burger" onClick={openMenu}>
               <span></span>
             </div>
           </div>
@@ -75,7 +79,7 @@ function Header(props) {
                 </div>
               </Link>
             </div>
-            <div className="header__burger">
+            <div className="header__burger" onClick={openMenu}>
               <span></span>
             </div>
           </div>
@@ -107,7 +111,7 @@ function Header(props) {
                   </div>
                 </Link>
               </div>
-              <div className="header__burger">
+              <div className="header__burger" onClick={openMenu}>
                 <span></span>
               </div>
               </>}
