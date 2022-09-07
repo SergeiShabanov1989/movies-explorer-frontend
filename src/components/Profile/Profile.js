@@ -1,16 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
+import {useForm} from "react-hook-form";
 
 function Profile(props) {
   const { currentUser } = useContext(CurrentUserContext);
   const[isEditButtonVisible, setEditButtonVisible] = useState(false);
   const [isDisabledInput, setDisabledInput] = useState(true);
-  const [isDisabledButton, setDisabledButton] = useState(true);
-  const [dataUser, setDataUser] = useState({
-    name: '',
-    email: '',
-  });
+  const [isActiveSubmit, updateIsActiveSubmit] = useState(false);
 
   const handleEditVisible = () => {
 
@@ -18,50 +15,53 @@ function Profile(props) {
     setEditButtonVisible(true)
   }
 
-  const handleChange = (e) => {
-    const {name, value} = e.target;
-    setDataUser((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-    if (e.target.value === currentUser.name || e.target.value === currentUser.email) {
-      setDisabledButton(true)
-    } else {
-      setDisabledButton(false)
-    }
+  function onSubmit(data) {
+    const { name, email } = data;
 
-    console.log(isDisabledButton)
+    props.onUpdateUser({
+      name: name,
+      email: email,
+    });
+    currentUser.name = name;
+    currentUser.email = email;
+    setDisabledInput(true)
+    setEditButtonVisible(false)
+    updateIsActiveSubmit(false)
   }
 
-  function handleSubmit(e) {
-    const { name, email } = dataUser;
-    e.preventDefault();
-
-    if (!isDisabledButton) {
-      props.onUpdateUser({
-        name: name,
-        email: email,
-      });
-      setDisabledInput(true)
-      setEditButtonVisible(false)
+  const {
+    register,
+    watch,
+    formState: {
+      errors,
+      isValid
+    },
+    handleSubmit,
+  } = useForm({
+    mode: "onChange",
+    defaultValue: {
+      name: currentUser.name,
+      email: currentUser.email
     }
-  }
+  });
 
   useEffect(() => {
-    setDataUser({
-      name: currentUser.name,
-      email: currentUser.email,
+    watch((value) => {
+      updateIsActiveSubmit(value.name !== currentUser.name || value.email !== currentUser.email)
     });
-  }, [currentUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watch])
+
 
   return (
     <>
       <section className="profile">
         <div className="profile__container">
-          <form className="profile__from" id="profileForm" onSubmit={handleSubmit}>
+          <form className="profile__from" id="profileForm" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="profile__title">{`Привет, ${currentUser.name}!`}</h2>
             <div className="profile__name-container">
               <p className="profile__name-text">Имя</p>
+              {errors.name && <span className="profile__error">{errors.name.message || "Error"}</span>}
               <input
                 className="profile__input"
                 disabled={isDisabledInput}
@@ -69,21 +69,48 @@ function Profile(props) {
                 type="text"
                 placeholder="Имя"
                 defaultValue={currentUser.name}
-                onChange={handleChange}/>
+                {...register("name", {
+                  required: "Поле обязательно к заполнению",
+                  minLength: {
+                    value: 2,
+                    message: "Минимум 2 символа"
+                  },
+                  maxLength: {
+                    value: 30,
+                    message: "Максимум 30 символов"
+                  }
+                })}
+              />
             </div>
             <div className="profile__name-container">
               <p className="profile__name-text">E-mail</p>
+              {errors.email && <span className="profile__error">{errors.email.message || "Error"}</span>}
               <input
                 className="profile__input"
                 disabled={isDisabledInput}
                 name="email"
                 type="email"
                 placeholder="E-mail"
-                onChange={handleChange}
-                defaultValue={currentUser.email}/>
+                defaultValue={currentUser.email}
+                {...register("email", {
+                  required: "Поле обязательно к заполнению",
+                  minLength: {
+                    value: 2,
+                    message: "Минимум 2 символа"
+                  },
+                  maxLength: {
+                    value: 40,
+                    message: "Максимум 40 символов"
+                  },
+                  pattern: {
+                    value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                    message: "Введен некорректный Email"
+                  }
+                })}
+              />
             </div>
             {isEditButtonVisible && <div className="profile__button-container">
-              <button type="submit" className={`profile__button-save ${isDisabledButton ? 'profile__button-save_disabled' : ''}`} form="profileForm">Сохранить</button>
+              <button type="submit" className={`profile__button-save ${!isValid || !isActiveSubmit ? "profile__button-save_disabled" : ""}`}>Сохранить</button>
             </div>}
           </form>
             {!isEditButtonVisible &&

@@ -56,7 +56,7 @@ const Register = (props) => {
               })}
             />
             <div className="register__error-wrapper">
-              {errors.name && <span className="login__error">{errors.name.message || "Error"}</span>}
+              {errors.name && <span className="register__error">{errors.name.message || "Error"}</span>}
             </div>
             <label htmlFor="email" className="register__label">E-mail</label>
             <input
@@ -83,7 +83,7 @@ const Register = (props) => {
               })}
             />
             <div className="register__error-wrapper">
-              {errors.email && <span className="login__error">{errors.email.message || "Error"}</span>}
+              {errors.email && <span className="register__error">{errors.email.message || "Error"}</span>}
             </div>
             <label htmlFor="password" className="register__label">Пароль</label>
             <input
@@ -106,7 +106,7 @@ const Register = (props) => {
               })}
             />
             <div className="register__error-wrapper">
-              {errors.password && <span className="login__error">{errors.password.message || "Error"}</span>}
+              {errors.password && <span className="register__error">{errors.password.message || "Error"}</span>}
             </div>
             <div className="register__button-container">
               <button type="submit" className="register__button" disabled={!isValid}>Зарегистрироваться</button>
