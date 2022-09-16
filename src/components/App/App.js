@@ -1,6 +1,6 @@
 import React from "react";
-import {Switch, Route, useHistory, Redirect} from 'react-router-dom';
-import { useEffect, useState, useCallback } from 'react';
+import { Switch, Route, useHistory } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -22,14 +22,12 @@ import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 
 function App() {
   const width = useCurrentWidth();
+  const history = useHistory();
   const [currentUser, setCurrentUser] = useState({
     name: '',
     email: '',
   });
   const [loggedIn, setLoggedIn] = useState(undefined);
-  const history = useHistory();
-
-    // стейты для фильмов
   const saved = true;
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [initialMovies, setInitialMovies] = useState([]);
@@ -109,8 +107,6 @@ function App() {
     history.push('/');
   }
 
-  //---------------логика работы фильмов------------
-
   function loadMovie (width) {
     if (width >= 1280) {
       return 3;
@@ -136,22 +132,22 @@ function App() {
   }
 
   function filterMovies(searchQuery, movies) {
-    const allFoundMovies = movies.filter((movie) =>
+    const foundMovies = movies.filter((movie) =>
         movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    allFoundMovies.filter((film) => film.duration <= 40);
-    checkIsSearchSuccessful(allFoundMovies);
-    localStorage.setItem("allFoundMovies", JSON.stringify(allFoundMovies));
+    foundMovies.filter((film) => film.duration <= 40);
+    checkSearchSuccessful(foundMovies);
+    localStorage.setItem("allFoundMovies", JSON.stringify(foundMovies));
     localStorage.setItem("searchQuery", searchQuery);
     localStorage.setItem("shortMovie", shortMovie);
     setFilteredMovies(
       shortMovie
-        ? allFoundMovies.filter((film) => film.duration <= 40)
-        : allFoundMovies
+        ? foundMovies.filter((film) => film.duration <= 40)
+        : foundMovies
     );
   }
 
-  function handleShortMovieBtn() {
+  function handleShortMovie() {
     if (shortMovie) {
       setFilteredMovies(
         JSON.parse(localStorage.getItem("allFoundMovies")).filter(
@@ -163,7 +159,7 @@ function App() {
     }
   }
 
-  function handleShortMovieBtnOnSavedMoviesPage() {
+  function handleShortSavedMovies() {
     if (shortMovie) {
       setSavedMovies(
         JSON.parse(localStorage.getItem("savedMovies")).filter(
@@ -183,7 +179,7 @@ function App() {
     }
   }
 
-  function checkIsSearchSuccessful(movies) {
+  function checkSearchSuccessful(movies) {
     if (movies.length === 0) {
       setShowPopup(true);
       setErrorMessage('Ничего не найдено')
@@ -194,11 +190,11 @@ function App() {
   }
 
   function searchSavedMovies(searchQuery) {
-    const filteredSavedMovies = savedMovies.filter((film) =>
+    const filteredMovies = savedMovies.filter((film) =>
       film.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    checkIsSearchSuccessful(filteredSavedMovies);
-    setSavedMovies(filteredSavedMovies);
+    checkSearchSuccessful(filteredMovies);
+    setSavedMovies(filteredMovies);
   }
 
   function searchMovies(searchQuery) {
@@ -278,7 +274,7 @@ function App() {
             filteredMovies={filteredMovies}
             loadMoviesMore={loadMoviesMore}
             visibleMovieCount={visibleMovieCount}
-            handleShortMovieBtn={handleShortMovieBtn}
+            handleShortMovieBtn={handleShortMovie}
             isLoadListMovies={isLoadListMovies}
             deleteMovieFromMovies={deleteMovieFromMovies}
             saveMovie={saveMovie}
@@ -291,7 +287,7 @@ function App() {
             isSearchQuery={isSearchQuery}
             searchSubmit={searchSavedMovies}
             isLoadListMovies={isLoadListMovies}
-            handleShortMovieBtn={handleShortMovieBtnOnSavedMoviesPage}
+            handleShortMovieBtn={handleShortSavedMovies}
             setShortMovie={setShortMovie}
             filteredMovies={filteredMovies}
             loadMoviesMore={loadMoviesMore}

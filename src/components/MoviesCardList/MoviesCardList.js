@@ -55,7 +55,7 @@ function MoviesCardList(props) {
                 }
               </div>
             }
-          {props.visibleMovieCount < moviesArray.length && props.isSearchSuccessful &&
+          {props.visibleMovieCount < moviesArray.length &&
             <div className="card-list__pagination-container">
             <button className="card-list__pagination" onClick={loadMoviesMore} type="button">Ещё</button>
           </div>}
