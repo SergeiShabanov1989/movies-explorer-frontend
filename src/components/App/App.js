@@ -304,7 +304,11 @@ function App() {
         </ProtectedRoute>
         <ProtectedRoute exact path="/profile" loggedIn={loggedIn}>
           <Header setShowMenu={setShowMenu}/>
-          <Profile signOut={signOut} onUpdateUser={onUpdateUser}/>
+          <Profile
+            signOut={signOut}
+            onUpdateUser={onUpdateUser}
+            setErrorMessage={setErrorMessage}
+            setShowPopup={setShowPopup}/>
         </ProtectedRoute>
         <Route exact path="*">
           <NotFound />

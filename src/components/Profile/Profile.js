@@ -24,9 +24,11 @@ function Profile(props) {
     });
     currentUser.name = name;
     currentUser.email = email;
-    setDisabledInput(true)
-    setEditButtonVisible(false)
-    updateIsActiveSubmit(false)
+    setDisabledInput(true);
+    setEditButtonVisible(false);
+    updateIsActiveSubmit(false);
+    props.setShowPopup(true)
+    props.setErrorMessage('Вы успешно обновили информацию')
   }
 
   const {
@@ -39,7 +41,7 @@ function Profile(props) {
     handleSubmit,
   } = useForm({
     mode: "onChange",
-    defaultValue: {
+    defaultValues: {
       name: currentUser.name,
       email: currentUser.email
     }
@@ -65,10 +67,9 @@ function Profile(props) {
               <input
                 className="profile__input"
                 disabled={isDisabledInput}
-                name="name"
                 type="text"
                 placeholder="Имя"
-                defaultValue={currentUser.name}
+                autoComplete="off"
                 {...register("name", {
                   required: "Поле обязательно к заполнению",
                   minLength: {
@@ -88,10 +89,9 @@ function Profile(props) {
               <input
                 className="profile__input"
                 disabled={isDisabledInput}
-                name="email"
                 type="email"
                 placeholder="E-mail"
-                defaultValue={currentUser.email}
+                autoComplete="off"
                 {...register("email", {
                   required: "Поле обязательно к заполнению",
                   minLength: {
@@ -110,7 +110,7 @@ function Profile(props) {
               />
             </div>
             {isEditButtonVisible && <div className="profile__button-container">
-              <button type="submit" className={`profile__button-save ${!isValid || !isActiveSubmit ? "profile__button-save_disabled" : ""}`}>Сохранить</button>
+              <button type="submit" className="profile__button-save" disabled={!isValid || !isActiveSubmit}>Сохранить</button>
             </div>}
           </form>
             {!isEditButtonVisible &&
