@@ -19,7 +19,8 @@ function SavedMovies(props) {
         saveMovie={props.saveMovie}
         savedMovies={props.savedMovies}
         deleteMovie={props.deleteMovie}
-        saved={props.saved}/>
+        saved={props.saved}
+        isSearchQuery={props.isSearchQuery}/>
     </main>
   );
 }

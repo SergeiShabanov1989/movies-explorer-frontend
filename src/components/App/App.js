@@ -57,11 +57,15 @@ function App() {
 
 
   const handleRegister = ({ name, email, password }) => {
-    return auth.register(name, email, password).then(() => {
-      history.push('/signin');
+    return auth.register(name, email, password)
+      .then(() => {
       setShowPopup(true);
       setErrorMessage('Регистрация прошла успешно!');
-    }).catch(() => {
+    })
+      .then(() => {
+        handleLogin({ email, password });
+      })
+      .catch(() => {
       setShowPopup(true);
       setErrorMessage('Ошибка при регистрации :(');
     });
@@ -74,7 +78,7 @@ function App() {
           localStorage.setItem('token', data.token);
           setLoggedIn(true);
           checkLocalStorage();
-          history.push('/');
+          history.push('/movies');
         }
       }).catch(() => {
       });

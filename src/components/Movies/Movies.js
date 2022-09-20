@@ -20,7 +20,8 @@ function Movies(props) {
         isLoadListMovies={props.isLoadListMovies}
         saveMovie={props.saveMovie}
         savedMovies={props.savedMovies}
-        deleteMovieFromMovies={props.deleteMovieFromMovies}/>
+        deleteMovieFromMovies={props.deleteMovieFromMovies}
+        isSearchQuery={props.isSearchQuery}/>
     </main>
   );
 }

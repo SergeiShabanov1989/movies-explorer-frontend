@@ -34,7 +34,7 @@ function SearchForm(props) {
     <>
       <section className="search-form">
         <div className="search-form__container">
-          <form className="search-form__form" onSubmit={submitForm}>
+          <form className="search-form__form" onSubmit={submitForm} noValidate>
             <div className="search-form__input-wrapper">
               <img className="search-form__icon" src={findIcon} alt="здесь должен быть значок поиска"/>
               <input className="search-form__input" type="text" placeholder="Фильм" required onChange={handleInputChange}/>
@@ -49,7 +49,6 @@ function SearchForm(props) {
             </div>
           </form>
         </div>
-        {props.isSearchQuery && <span className="search-form__error">Нужно ввести ключевое слово</span>}
       </section>
     </>
   );

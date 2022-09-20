@@ -29,7 +29,8 @@ function MoviesCardList(props) {
     <>
       <section className="card-list">
         <div className="card-list__container">
-          {props.isLoadListMovies ?
+          {props.isSearchQuery ? <span className="card-list__error">Нужно ввести ключевое слово</span> :
+          props.isLoadListMovies ?
               <Preloader/> :
               <div className="card-list__grid-container">
                 {
