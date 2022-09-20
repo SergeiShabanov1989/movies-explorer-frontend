@@ -118,10 +118,10 @@ function App() {
 
   function loadMovie (width) {
     if (width >= 1280) {
-      return 3;
+      return 4;
     }
     if (width >= 768) {
-      return 2;
+      return 3;
     }
     return 2;
   }
