@@ -81,6 +81,8 @@ function App() {
           history.push('/movies');
         }
       }).catch(() => {
+        setShowPopup(true);
+        setErrorMessage('Ошибка при входе :(');
       });
   }
 
@@ -89,7 +91,10 @@ function App() {
       .then((res) => {
         setCurrentUser(res)
       })
-      .catch(console.log)
+      .catch(() => {
+        setShowPopup(true);
+        setErrorMessage('Ошибка при обновлении :(');
+      })
   }
 
   const tokenCheck = () => {
