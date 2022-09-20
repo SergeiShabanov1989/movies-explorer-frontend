@@ -258,12 +258,12 @@ function App() {
   return (
     <CurrentUserContext.Provider value={{ currentUser }}>
       <Switch>
-        <Route exact path="/signin">
+        {!loggedIn && <Route exact path="/signin">
           <Login handleLogin={handleLogin}/>
-        </Route>
-        <Route exact path="/signup">
+        </Route>}
+        {!loggedIn && <Route exact path="/signup">
           <Register handleRegister={handleRegister}/>
-        </Route>
+        </Route>}
         <Route exact path="/">
           <Header loggedIn={loggedIn} setShowMenu={setShowMenu}/>
           <Main />
