@@ -60,13 +60,11 @@ function MoviesCardList(props) {
                       title={movie.nameRU}
                       duration={movie.duration}
                       key={movie.id || movie.movieId}
-                      saveMovie={props.saveMovie}
                       movie={movie}
                       saved={props.saved}
                       deleteMovie={props.deleteMovie}
                       trailerLink={movie.trailerLink}
                       isLiked={isMovieLiked(movie.id)}
-                      deleteMovieFromMovies={props.deleteMovieFromMovies}
                       setRenderMovies={props.setRenderMovies}
                       setSavedMovies={props.setSavedMovies}
                       savedMovies={props.savedMovies}

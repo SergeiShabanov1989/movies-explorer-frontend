@@ -6,11 +6,8 @@ function MoviesCard(
     picture,
     title,
     duration,
-    saveMovie,
     movie,
     saved,
-    deleteMovie,
-    deleteMovieFromMovies,
     trailerLink,
     isLiked,
     savedMovies,
@@ -25,10 +22,6 @@ function MoviesCard(
     return hours + 'ч ' + minutes + 'м';
   };
 
-  // function deleteFavorite() {
-  //   deleteMovie(movie._id);
-  // }
-
   function deleteFavorite() {
     mainApi.deleteMovie(movie._id)
       .then(() => {
@@ -36,7 +29,7 @@ function MoviesCard(
         setRenderMovies((state) => state.filter((item) => item._id !== movie._id));
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   function handleFavorite () {
     setIsFavorite(!isLiked);
@@ -54,20 +47,10 @@ function MoviesCard(
         .then(() => {
           setSavedMovies((state) => state.filter((item) => item._id !== movieDeleted._id));
           setRenderMovies((state) => state.filter((item) => item._id !== movieDeleted._id));
-          console.log(savedMovies)
         })
         .catch((err) => console.log(err));
     }
-  }
-
-  // function handleFavorite () {
-  //   setIsFavorite(!isLiked)
-  //   if (isLiked === true) {
-  //     deleteMovieFromMovies(movie.id);
-  //   } else {
-  //     saveMovie(movie);
-  //   }
-  // }
+  };
 
   return (
     <div className="movies-card">

@@ -91,7 +91,6 @@ function App() {
     auth.getContent(token)
       .then((res) => {
       if (res) {
-        console.log(res)
         setLoggedIn(true);
         history.push("/movies");
       }
