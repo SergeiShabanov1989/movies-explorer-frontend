@@ -2,8 +2,9 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import {useForm} from "react-hook-form";
+import {mainApi} from "../../utils/MainApi";
 
-function Profile(props) {
+function Profile({ setCurrentUser, setShowPopup, setErrorMessage, signOut }) {
   const { currentUser } = useContext(CurrentUserContext);
   const[isEditButtonVisible, setEditButtonVisible] = useState(false);
   const [isDisabledInput, setDisabledInput] = useState(true);
@@ -18,17 +19,21 @@ function Profile(props) {
   function onSubmit(data) {
     const { name, email } = data;
 
-    props.onUpdateUser({
-      name: name,
-      email: email,
-    });
+    mainApi.editProfile(name, email)
+      .then((res) => {
+        setCurrentUser(res)
+        setShowPopup(true);
+        setErrorMessage('Вы успешно обновили информацию');
+      })
+      .catch(() => {
+        setShowPopup(true);
+        setErrorMessage('Ошибка при обновлении :(');
+      })
     currentUser.name = name;
     currentUser.email = email;
     setDisabledInput(true);
     setEditButtonVisible(false);
     updateIsActiveSubmit(false);
-    props.setShowPopup(true)
-    props.setErrorMessage('Вы успешно обновили информацию')
   }
 
   const {
@@ -118,7 +123,7 @@ function Profile(props) {
                 <div className="profile__button-container">
                   <button className="profile__button" onClick={handleEditVisible}>Редактировать</button>
                   <Link to="/" className="profile__button-wrapper">
-                  <button className="profile__button profile__button_red" type="button" onClick={props.signOut}>Выйти изаккаунта
+                  <button className="profile__button profile__button_red" type="button" onClick={signOut}>Выйти изаккаунта
                   </button>
                   </Link>
                 </div>

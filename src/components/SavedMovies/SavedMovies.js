@@ -7,6 +7,7 @@ function SavedMovies(props) {
   return (
     < main className="saved-movies">
       <SearchForm
+        setShortMovie={props.setShortMovie}
         searchSubmit={props.searchSubmit}
         handleShortMovieBtn={props.handleShortMovieBtn}
         isSearchQuery={props.isSearchQuery}/>
@@ -20,7 +21,10 @@ function SavedMovies(props) {
         savedMovies={props.savedMovies}
         deleteMovie={props.deleteMovie}
         saved={props.saved}
-        isSearchQuery={props.isSearchQuery}/>
+        isSearchQuery={props.isSearchQuery}
+        renderMovies={props.renderMovies}
+        setRenderMovies={props.setRenderMovies}
+        setSavedMovies={props.setSavedMovies}/>
     </main>
   );
 }

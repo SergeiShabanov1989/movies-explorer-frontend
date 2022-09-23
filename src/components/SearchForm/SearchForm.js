@@ -1,19 +1,27 @@
 import findIcon from "../../images/findicon.svg"
 import {useEffect, useState} from "react";
+import { useLocation } from "react-router-dom";
 
 function SearchForm(props) {
   const [checked, setChecked] = useState(false)
   const [value, setValue] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
-    if (localStorage.shortMovie) {
-      setChecked(JSON.parse(localStorage.getItem('shortMovie')) )
-    }
-
     if (localStorage.searchQuery) {
       setValue(localStorage.getItem('searchQuery'))
     }
   }, [])
+
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      if (localStorage.shortMoviesPage) {
+        setChecked(JSON.parse(localStorage.getItem("shortMoviesPage")));
+      } else {
+        setChecked(false);
+      }
+    }
+  }, [location]);
 
   function handleInputChange(e) {
     setValue(e.target.value);

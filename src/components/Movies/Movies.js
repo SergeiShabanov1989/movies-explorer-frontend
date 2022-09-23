@@ -21,7 +21,9 @@ function Movies(props) {
         saveMovie={props.saveMovie}
         savedMovies={props.savedMovies}
         deleteMovieFromMovies={props.deleteMovieFromMovies}
-        isSearchQuery={props.isSearchQuery}/>
+        isSearchQuery={props.isSearchQuery}
+        setRenderMovies={props.setRenderMovies}
+        setSavedMovies={props.setSavedMovies}/>
     </main>
   );
 }

@@ -1,20 +1,12 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import {useContext} from "react";
 
 function MoviesCardList(props) {
-  const currentUser = useContext(CurrentUserContext);
 
-  const savedMoviesFilteredByOwner = props.savedMovies.filter(
-    (film) => {
-      return film.owner === currentUser.currentUser._id;
-    }
-  );
-  const moviesArray = props.saved ? savedMoviesFilteredByOwner : props.filteredMovies;
+  const moviesArray = props.saved ? props.renderMovies : props.filteredMovies;
 
   const isMovieLiked = (id) => {
-    const isLiked = savedMoviesFilteredByOwner.find((savedMovie) => {
+    const isLiked = props.savedMovies.find((savedMovie) => {
       return savedMovie.movieId === id;
     });
 
@@ -51,6 +43,9 @@ function MoviesCardList(props) {
                       trailerLink={movie.trailerLink}
                       isLiked={isMovieLiked(movie.id)}
                       deleteMovieFromMovies={props.deleteMovieFromMovies}
+                      setRenderMovies={props.setRenderMovies}
+                      setSavedMovies={props.setSavedMovies}
+                      savedMovies={props.savedMovies}
                     />
                   ))
                 }

@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {mainApi} from "../../utils/MainApi";
 
 function MoviesCard(
   {
@@ -12,6 +13,9 @@ function MoviesCard(
     deleteMovieFromMovies,
     trailerLink,
     isLiked,
+    savedMovies,
+    setSavedMovies,
+    setRenderMovies
   }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -21,18 +25,49 @@ function MoviesCard(
     return hours + 'ч ' + minutes + 'м';
   };
 
+  // function deleteFavorite() {
+  //   deleteMovie(movie._id);
+  // }
+
   function deleteFavorite() {
-    deleteMovie(movie._id);
+    mainApi.deleteMovie(movie._id)
+      .then(() => {
+        setSavedMovies((state) => state.filter((item) => item._id !== movie._id));
+        setRenderMovies((state) => state.filter((item) => item._id !== movie._id));
+      })
+      .catch((err) => console.log(err));
   }
 
   function handleFavorite () {
-    setIsFavorite(!isLiked)
-    if (isLiked === true) {
-      deleteMovieFromMovies(movie.id);
+    setIsFavorite(!isLiked);
+    console.log(isLiked)
+    if (!isLiked) {
+      mainApi.getSaveFilm(movie)
+        .then((savedMovie) => {
+          setSavedMovies([savedMovie, ...savedMovies]);
+          setRenderMovies([savedMovie, ...savedMovies]);
+        })
+        .catch((err) => console.log(err));
     } else {
-      saveMovie(movie);
+      const movieDeleted = savedMovies.find((item) => item.movieId === movie.id);
+      mainApi.deleteMovie(movieDeleted._id)
+        .then(() => {
+          setSavedMovies((state) => state.filter((item) => item._id !== movieDeleted._id));
+          setRenderMovies((state) => state.filter((item) => item._id !== movieDeleted._id));
+          console.log(savedMovies)
+        })
+        .catch((err) => console.log(err));
     }
   }
+
+  // function handleFavorite () {
+  //   setIsFavorite(!isLiked)
+  //   if (isLiked === true) {
+  //     deleteMovieFromMovies(movie.id);
+  //   } else {
+  //     saveMovie(movie);
+  //   }
+  // }
 
   return (
     <div className="movies-card">
