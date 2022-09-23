@@ -8,19 +8,22 @@ function Movies(props) {
     < main className="movies">
       <SearchForm
         setShortMovie={props.setShortMovie}
-        searchSubmit={props.searchSubmit}
-        handleShortMovieBtn={props.handleShortMovieBtn}
-        isSearchQuery={props.isSearchQuery}/>
+        isSearchQuery={props.isSearchQuery}
+        setRenderMovies={props.setRenderMovies}
+        savedMovies={props.savedMovies}
+        shortMovie={props.shortMovie}
+        setFilteredMovies={props.setFilteredMovies}
+        setShowPopup={props.setShowPopup}
+        setErrorMessage={props.setErrorMessage}
+        setSearchQuery={props.setSearchQuery}
+        setInitialMovies={props.setInitialMovies}
+        setIsLoadListMovies={props.setIsLoadListMovies}/>
       <MoviesCardList
         movies={props.movies}
         serverError={props.serverError}
         filteredMovies={props.filteredMovies}
-        loadMoviesMoreBtn={props.loadMoviesMore}
-        visibleMovieCount={props.visibleMovieCount}
         isLoadListMovies={props.isLoadListMovies}
-        saveMovie={props.saveMovie}
         savedMovies={props.savedMovies}
-        deleteMovieFromMovies={props.deleteMovieFromMovies}
         isSearchQuery={props.isSearchQuery}
         setRenderMovies={props.setRenderMovies}
         setSavedMovies={props.setSavedMovies}/>

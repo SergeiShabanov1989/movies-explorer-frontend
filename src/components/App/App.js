@@ -17,7 +17,6 @@ import Menu from "../Menu/Menu";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as auth from '../../utils/auth.js';
 import {mainApi} from '../../utils/MainApi';
-import * as fetchMovies from "../../utils/MoviesApi";
 
 function App() {
   const location = useLocation();
@@ -115,10 +114,15 @@ function App() {
   }, [loggedIn]);
 
   useEffect(() => {
+    getSavedMovies();
+    setSearchQuery(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
     if (shortMovie) {
       if (localStorage.allFoundMovies) {
         const movies = JSON.parse(localStorage.getItem("allFoundMovies"));
-        setFilteredMovies(movies.filter((film) => film.duration <= 40));
+        setFilteredMovies((movies.filter((film) => film.duration <= 40)));
       } else {
         setFilteredMovies([]);
       }
@@ -129,7 +133,7 @@ function App() {
         setFilteredMovies([]);
       }
     }
-  }, []);
+  }, [shortMovie]);
 
   useEffect(() => {
     if (shortMovie) {
@@ -157,101 +161,11 @@ function App() {
     }
   }, [location.pathname, savedMovies]);
 
-  function filterMovies(searchQuery, movies) {
-    const foundMovies = movies.filter((movie) =>
-        movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    foundMovies.filter((film) => film.duration <= 40);
-    checkSearchSuccessful(foundMovies);
-    localStorage.setItem("allFoundMovies", JSON.stringify(foundMovies));
-    localStorage.setItem("searchQuery", searchQuery);
-    localStorage.setItem("shortMovie", shortMovie);
-    setFilteredMovies(shortMovie ? foundMovies.filter((film) => film.duration <= 40) : foundMovies);
-  }
-
-  function handleShortMovie() {
-    localStorage.setItem("shortMoviesPage", JSON.stringify(!shortMovie));
-    if (shortMovie) {
-      setFilteredMovies(
-        JSON.parse(localStorage.getItem("allFoundMovies")).filter(
-          (film) => film.duration <= 40
-        )
-      );
-    } else {
-      if (localStorage.allFoundMovies) {
-        setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
-      } else {
-        setFilteredMovies([]);
-      }
-    }
-  }
-
-  function handleShortSavedMovies() {
-    if (shortMovie) {
-      if (savedMovies.length === 0) {
-        setRenderMovies([]);
-      } else {
-        setRenderMovies(savedMovies.filter((film) => film.duration <= 40));
-      }
-    } else {
-      if (savedMovies.length === 0) {
-        setRenderMovies([]);
-      } else {
-        setRenderMovies(savedMovies);
-      }
-    }
-  }
-
   function checkLocalStorage() {
     if (localStorage.allFoundMovies) {
       setFilteredMovies(JSON.parse(localStorage.getItem("allFoundMovies")));
     } else {
       setFilteredMovies([]);
-    }
-  }
-
-  function checkSearchSuccessful(movies) {
-    if (movies.length === 0) {
-      setShowPopup(true);
-      setErrorMessage('Ничего не найдено')
-    } else {
-      setShowPopup(false);
-      setErrorMessage('')
-    }
-  }
-
-  function searchSavedMovies(searchQuery) {
-    const filteredMovies = savedMovies.filter((film) =>
-      film.nameRU.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    checkSearchSuccessful(filteredMovies);
-    setRenderMovies(filteredMovies);
-  }
-
-  function searchMovies(searchQuery) {
-    if (searchQuery.length === 0) {
-      setSearchQuery(true);
-      return;
-    } else {
-      setSearchQuery(false);
-    }
-    if (!localStorage.initialMovies) {
-      setIsLoadListMovies(true);
-      fetchMovies.getMovies()
-        .then((movies) => {
-          filterMovies(searchQuery, movies);
-          setInitialMovies(movies);
-          localStorage.setItem("initialMovies", JSON.stringify(movies));
-        })
-        .catch(() => {
-          setShowPopup(true);
-          setErrorMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
-        })
-        .finally(() => {
-          setIsLoadListMovies(false);
-        });
-    } else {
-      filterMovies(searchQuery, JSON.parse(localStorage.getItem("initialMovies")));
     }
   }
 
@@ -284,38 +198,40 @@ function App() {
           <Movies
             isSearchQuery={isSearchQuery}
             setShortMovie={setShortMovie}
-            searchSubmit={searchMovies}
             filteredMovies={filteredMovies}
-            // loadMoviesMore={loadMoviesMore}
-            // visibleMovieCount={visibleMovieCount}
-            handleShortMovieBtn={handleShortMovie}
             isLoadListMovies={isLoadListMovies}
-            // deleteMovieFromMovies={deleteMovieFromMovies}
-            // saveMovie={saveMovie}
             savedMovies={savedMovies}
             renderMovies={renderMovies}
             setSavedMovies={setSavedMovies}
-            setRenderMovies={setRenderMovies}/>
+            setRenderMovies={setRenderMovies}
+            shortMovie={shortMovie}
+            setFilteredMovies={setFilteredMovies}
+            setShowPopup={setShowPopup}
+            setErrorMessage={setErrorMessage}
+            setSearchQuery={setSearchQuery}
+            setInitialMovies={setInitialMovies}
+            setIsLoadListMovies={setIsLoadListMovies}/>
           <Footer />
         </ProtectedRoute>
         <ProtectedRoute exact path="/saved-movies" loggedIn={loggedIn}>
           <Header setShowMenu={setShowMenu}/>
           <SavedMovies
             isSearchQuery={isSearchQuery}
-            searchSubmit={searchSavedMovies}
             isLoadListMovies={isLoadListMovies}
-            handleShortMovieBtn={handleShortSavedMovies}
             setShortMovie={setShortMovie}
             filteredMovies={filteredMovies}
-            // loadMoviesMore={loadMoviesMore}
-            // visibleMovieCount={visibleMovieCount}
-            // deleteMovie={deleteMovie}
-            // saveMovie={saveMovie}
             savedMovies={savedMovies}
             saved={saved}
             renderMovies={renderMovies}
             setSavedMovies={setSavedMovies}
-            setRenderMovies={setRenderMovies}/>
+            setRenderMovies={setRenderMovies}
+            setFilteredMovies={setFilteredMovies}
+            shortMovie={shortMovie}
+            setShowPopup={setShowPopup}
+            setErrorMessage={setErrorMessage}
+            setSearchQuery={setSearchQuery}
+            setInitialMovies={setInitialMovies}
+            setIsLoadListMovies={setIsLoadListMovies}/>
           <Footer />
         </ProtectedRoute>
         <ProtectedRoute exact path="/profile" loggedIn={loggedIn}>

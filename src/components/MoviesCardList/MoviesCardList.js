@@ -2,29 +2,36 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
 import {useState} from "react";
 import {useCurrentWidth} from "../../hooks/useCurrentWidth";
+import {
+  DESKTOP,
+  TABLET,
+  DESKTOP_CARD,
+  TABLET_CARD,
+  MOBILE_CARD
+} from "../../utils/utils";
 
 function MoviesCardList(props) {
   const width = useCurrentWidth();
   const [visibleMovieCount, setVisibleMovieCount] = useState(getInitialCount(width));
 
   function loadMovie (width) {
-    if (width >= 1280) {
+    if (width >= DESKTOP) {
       return 4;
     }
-    if (width >= 768) {
+    if (width >= TABLET) {
       return 3;
     }
     return 2;
   }
 
   function getInitialCount (width) {
-    if (width >= 1280) {
-      return 12;
+    if (width >= DESKTOP) {
+      return DESKTOP_CARD;
     }
-    if (width >= 768) {
-      return 8;
+    if (width >= TABLET) {
+      return TABLET_CARD;
     }
-    return 5;
+    return MOBILE_CARD;
   }
 
   const moviesArray = props.saved ? props.renderMovies : props.filteredMovies;
