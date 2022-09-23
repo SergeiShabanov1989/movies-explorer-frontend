@@ -91,7 +91,6 @@ function App() {
       .then((res) => {
       if (res) {
         setLoggedIn(true);
-        history.push("/movies");
       }
     })
     .catch(() => {
