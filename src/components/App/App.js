@@ -18,10 +18,8 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as auth from '../../utils/auth.js';
 import {mainApi} from '../../utils/MainApi';
 import * as fetchMovies from "../../utils/MoviesApi";
-import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 
 function App() {
-  const width = useCurrentWidth();
   const location = useLocation();
   const history = useHistory();
   const [currentUser, setCurrentUser] = useState({
@@ -40,7 +38,6 @@ function App() {
   const [renderMovies, setRenderMovies] = useState([]);
 
   const [isSearchQuery, setSearchQuery] = useState(false);
-  const [visibleMovieCount, setVisibleMovieCount] = useState(getInitialCount(width));
   const [shortMovie, setShortMovie] = useState(false);
 
   useEffect(() => {
@@ -88,17 +85,6 @@ function App() {
         setErrorMessage('Ошибка при входе :(');
       });
   }
-
-  // function onUpdateUser(dataProfileFromInput) {
-  //   mainApi.editProfile(dataProfileFromInput.name, dataProfileFromInput.email)
-  //     .then((res) => {
-  //       setCurrentUser(res)
-  //     })
-  //     .catch(() => {
-  //       setShowPopup(true);
-  //       setErrorMessage('Ошибка при обновлении :(');
-  //     })
-  // }
 
   const tokenCheck = () => {
     const token = localStorage.getItem('token');
@@ -171,30 +157,6 @@ function App() {
       setRenderMovies(savedMovies);
     }
   }, [location.pathname, savedMovies]);
-
-  function loadMovie (width) {
-    if (width >= 1280) {
-      return 4;
-    }
-    if (width >= 768) {
-      return 3;
-    }
-    return 2;
-  }
-
-  function getInitialCount (width) {
-    if (width >= 1280) {
-      return 12;
-    }
-    if (width >= 768) {
-      return 8;
-    }
-    return 5;
-  }
-
-  function loadMoviesMore () {
-    setVisibleMovieCount((prevCount) => prevCount + loadMovie(width));
-  }
 
   function filterMovies(searchQuery, movies) {
     const foundMovies = movies.filter((movie) =>
@@ -294,29 +256,6 @@ function App() {
     }
   }
 
-  // function saveMovie(movie) {
-  //   mainApi.getSaveFilm(movie)
-  //     .then((savedMovie) => {
-  //       setSavedMovies([savedMovie, ...savedMovies]);
-  //       setRenderMovies([savedMovie, ...savedMovies])
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-
-  // function deleteMovie(id) {
-  //   mainApi.deleteMovie(id)
-  //     .then(() => {
-  //       setSavedMovies((state) => state.filter((movie) => movie._id !== id));
-  //       setRenderMovies((state) => state.filter((movie) => movie._id !== id));
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-
-  // function deleteMovieFromMovies(id) {
-  //   const movieDeleted = savedMovies.find((movie) => movie.movieId === id);
-  //   deleteMovie(movieDeleted._id);
-  // }
-
   function getSavedMovies() {
     mainApi.getFilms()
       .then((savedMovies) => {
@@ -348,8 +287,8 @@ function App() {
             setShortMovie={setShortMovie}
             searchSubmit={searchMovies}
             filteredMovies={filteredMovies}
-            loadMoviesMore={loadMoviesMore}
-            visibleMovieCount={visibleMovieCount}
+            // loadMoviesMore={loadMoviesMore}
+            // visibleMovieCount={visibleMovieCount}
             handleShortMovieBtn={handleShortMovie}
             isLoadListMovies={isLoadListMovies}
             // deleteMovieFromMovies={deleteMovieFromMovies}
@@ -369,8 +308,8 @@ function App() {
             handleShortMovieBtn={handleShortSavedMovies}
             setShortMovie={setShortMovie}
             filteredMovies={filteredMovies}
-            loadMoviesMore={loadMoviesMore}
-            visibleMovieCount={visibleMovieCount}
+            // loadMoviesMore={loadMoviesMore}
+            // visibleMovieCount={visibleMovieCount}
             // deleteMovie={deleteMovie}
             // saveMovie={saveMovie}
             savedMovies={savedMovies}

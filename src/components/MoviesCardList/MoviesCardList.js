@@ -1,7 +1,31 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
+import {useState} from "react";
+import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 
 function MoviesCardList(props) {
+  const width = useCurrentWidth();
+  const [visibleMovieCount, setVisibleMovieCount] = useState(getInitialCount(width));
+
+  function loadMovie (width) {
+    if (width >= 1280) {
+      return 4;
+    }
+    if (width >= 768) {
+      return 3;
+    }
+    return 2;
+  }
+
+  function getInitialCount (width) {
+    if (width >= 1280) {
+      return 12;
+    }
+    if (width >= 768) {
+      return 8;
+    }
+    return 5;
+  }
 
   const moviesArray = props.saved ? props.renderMovies : props.filteredMovies;
 
@@ -13,8 +37,8 @@ function MoviesCardList(props) {
     return Boolean(isLiked);
   };
 
-  function loadMoviesMore() {
-    props.loadMoviesMoreBtn();
+  function loadMoviesMore () {
+    setVisibleMovieCount((prevCount) => prevCount + loadMovie(width));
   }
 
   return (
@@ -26,7 +50,7 @@ function MoviesCardList(props) {
               <Preloader/> :
               <div className="card-list__grid-container">
                 {
-                  moviesArray.slice(0, props.visibleMovieCount).map((movie) => (
+                  moviesArray.slice(0, visibleMovieCount).map((movie) => (
                     <MoviesCard
                       picture={`${
                         props.saved
@@ -51,7 +75,7 @@ function MoviesCardList(props) {
                 }
               </div>
             }
-          {props.visibleMovieCount < moviesArray.length &&
+          {visibleMovieCount < moviesArray.length &&
             <div className="card-list__pagination-container">
             <button className="card-list__pagination" onClick={loadMoviesMore} type="button">Ещё</button>
           </div>}
