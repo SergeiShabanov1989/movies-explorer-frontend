@@ -107,13 +107,11 @@ function SearchForm(props) {
 
   useEffect(() => {
     if (location.pathname === '/movies') {
-      if (localStorage.shortMoviesPage) {
-        setChecked(checked);
-        props.setShortMovie(checked);
-      } else {
-        setChecked(false);
-      }
-    }
+      setChecked(checked);
+      props.setShortMovie(checked);
+    } else {
+    setChecked(false);
+  }
   }, [location.pathname]);
 
   function handleInputChange(e) {
