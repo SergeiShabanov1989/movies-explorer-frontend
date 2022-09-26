@@ -18,9 +18,6 @@ function MoviesCardList(props) {
     if (width >= DESKTOP) {
       return 4;
     }
-    if (width >= TABLET) {
-      return 3;
-    }
     return 2;
   }
 
@@ -75,6 +72,8 @@ function MoviesCardList(props) {
                       setRenderMovies={props.setRenderMovies}
                       setSavedMovies={props.setSavedMovies}
                       savedMovies={props.savedMovies}
+                      setShowPopup={props.setShowPopup}
+                      setErrorMessage={props.setErrorMessage}
                     />
                   ))
                 }

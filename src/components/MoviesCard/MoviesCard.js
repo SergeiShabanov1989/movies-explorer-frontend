@@ -12,7 +12,9 @@ function MoviesCard(
     isLiked,
     savedMovies,
     setSavedMovies,
-    setRenderMovies
+    setRenderMovies,
+    setShowPopup,
+    setErrorMessage
   }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -28,19 +30,24 @@ function MoviesCard(
         setSavedMovies((state) => state.filter((item) => item._id !== movie._id));
         setRenderMovies((state) => state.filter((item) => item._id !== movie._id));
       })
-      .catch((err) => console.log(err));
+      .catch(() => {
+        setShowPopup(true);
+        setErrorMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+      });
   };
 
   function handleFavorite () {
-    setIsFavorite(!isLiked);
-    console.log(isLiked)
     if (!isLiked) {
       mainApi.getSaveFilm(movie)
         .then((savedMovie) => {
+          setIsFavorite(!isLiked);
           setSavedMovies([savedMovie, ...savedMovies]);
           setRenderMovies([savedMovie, ...savedMovies]);
         })
-        .catch((err) => console.log(err));
+        .catch(() => {
+          setShowPopup(true);
+          setErrorMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+        });
     } else {
       const movieDeleted = savedMovies.find((item) => item.movieId === movie.id);
       mainApi.deleteMovie(movieDeleted._id)
@@ -48,7 +55,10 @@ function MoviesCard(
           setSavedMovies((state) => state.filter((item) => item._id !== movieDeleted._id));
           setRenderMovies((state) => state.filter((item) => item._id !== movieDeleted._id));
         })
-        .catch((err) => console.log(err));
+        .catch(() => {
+          setShowPopup(true);
+          setErrorMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+        });
     }
   };
 

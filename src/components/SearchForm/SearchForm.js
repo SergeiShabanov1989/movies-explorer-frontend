@@ -88,7 +88,7 @@ function SearchForm(props) {
           })
           .catch(() => {
             props.setShowPopup(true);
-            props.setErrorMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+            props.setErrorMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
           })
           .finally(() => {
             props.setIsLoadListMovies(false);
@@ -108,8 +108,8 @@ function SearchForm(props) {
   useEffect(() => {
     if (location.pathname === '/movies') {
       if (localStorage.shortMoviesPage) {
-        setChecked(false);
-        props.setShortMovie(false);
+        setChecked(checked);
+        props.setShortMovie(checked);
       } else {
         setChecked(false);
       }

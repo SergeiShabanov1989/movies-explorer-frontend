@@ -28,7 +28,9 @@ function SavedMovies(props) {
         isSearchQuery={props.isSearchQuery}
         renderMovies={props.renderMovies}
         setRenderMovies={props.setRenderMovies}
-        setSavedMovies={props.setSavedMovies}/>
+        setSavedMovies={props.setSavedMovies}
+        setShowPopup={props.setShowPopup}
+        setErrorMessage={props.setErrorMessage}/>
     </main>
   );
 }
