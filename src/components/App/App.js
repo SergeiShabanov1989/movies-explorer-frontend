@@ -104,7 +104,6 @@ function App() {
     history.push('/');
     localStorage.removeItem("allFoundMovies");
     localStorage.removeItem("searchQuery");
-    localStorage.removeItem("shortMoviesPage");
     localStorage.removeItem("initialMovies");
   }
 
