@@ -35,6 +35,7 @@ function SearchForm(props) {
         }
       }
     } else {
+      localStorage.setItem("shortMoviesPage", JSON.stringify(!props.shortMovie));
       if (props.shortMovie) {
         props.setFilteredMovies(
           JSON.parse(localStorage.getItem("allFoundMovies")).filter(
@@ -104,13 +105,21 @@ function SearchForm(props) {
   }, [])
 
   useEffect(() => {
-    if (location.pathname === '/movies') {
-      setChecked(checked);
-      props.setShortMovie(checked);
+    if (localStorage.shortMoviesPage) {
+      props.setShortMovie(JSON.parse(localStorage.getItem("shortMoviesPage")));
     } else {
-    setChecked(false);
-    props.setShortMovie(false);
-  }
+      props.setShortMovie(false);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      if (localStorage.shortMoviesPage) {
+        setChecked(JSON.parse(localStorage.getItem("shortMoviesPage")));
+      } else {
+        setChecked(false);
+      }
+    }
   }, [location.pathname]);
 
   function handleInputChange(e) {

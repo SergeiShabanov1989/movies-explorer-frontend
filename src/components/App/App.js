@@ -105,6 +105,7 @@ function App() {
     localStorage.removeItem("allFoundMovies");
     localStorage.removeItem("searchQuery");
     localStorage.removeItem("initialMovies");
+    localStorage.removeItem("shortMoviesPage");
   }
 
   useEffect(() => {
