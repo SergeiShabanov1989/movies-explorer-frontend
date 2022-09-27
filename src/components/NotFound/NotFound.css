@@ -33,6 +33,9 @@
 }
 
 .not-found__link {
+  border: none;
+  background-color: transparent;
+  padding: 0;
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
@@ -42,6 +45,7 @@
   text-decoration: none;
   margin: 0;
   transition: all .4s;
+  cursor: pointer;
 }
 
 .not-found__link:hover {

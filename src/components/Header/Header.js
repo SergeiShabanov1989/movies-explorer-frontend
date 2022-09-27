@@ -1,9 +1,13 @@
 import logo from "../../images/logoheader.png";
 import account from "../../images/account.svg";
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch, Link, NavLink } from 'react-router-dom';
 import React from "react";
 
-function Header() {
+function Header(props) {
+  const openMenu = () => {
+    props.setShowMenu(true);
+  }
+
   return (
     <Switch>
       <Route path='/movies'>
@@ -16,7 +20,7 @@ function Header() {
               className="header__logo"/>
             </Link>
             <div className="header__button-container header__button-container_burger">
-              <Link to='/movies' className="header__link">Фильмы</Link>
+              <NavLink to='/movies' activeClassName="header__link_active" className="header__link">Фильмы</NavLink>
               <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
               <Link to='/profile' className="header__link-account">
                 <p className="header__button-text" type="button">Аккаунт</p>
@@ -25,7 +29,7 @@ function Header() {
                 </div>
               </Link>
             </div>
-          <div className="header__burger">
+          <div className="header__burger" onClick={openMenu}>
             <span></span>
           </div>
           </div>
@@ -42,7 +46,7 @@ function Header() {
             </Link>
             <div className="header__button-container header__button-container_burger">
               <Link to='/movies' className="header__link">Фильмы</Link>
-              <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
+              <NavLink to='/saved-movies' activeClassName="header__link_active" className="header__link">Сохранённые фильмы</NavLink>
               <Link to='/profile' className="header__link-account">
                 <p className="header__button-text" type="button">Аккаунт</p>
                 <div className="header__button-wrapper">
@@ -50,7 +54,7 @@ function Header() {
                 </div>
               </Link>
             </div>
-            <div className="header__burger">
+            <div className="header__burger" onClick={openMenu}>
               <span></span>
             </div>
           </div>
@@ -68,14 +72,14 @@ function Header() {
             <div className="header__button-container header__button-container_burger">
               <Link to='/movies' className="header__link">Фильмы</Link>
               <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
-              <Link to='/profile' className="header__link-account">
+              <NavLink to='/profile' activeClassName="header__link-account_active" className="header__link-account">
                 <p className="header__button-text" type="button">Аккаунт</p>
                 <div className="header__button-wrapper">
                   <img className="header__button-img" alt="аватар" src={account} />
                 </div>
-              </Link>
+              </NavLink>
             </div>
-            <div className="header__burger">
+            <div className="header__burger" onClick={openMenu}>
               <span></span>
             </div>
           </div>
@@ -90,12 +94,27 @@ function Header() {
                 alt="логотип сайта"
                 className="header__logo"/>
             </Link>
-            <div className="header__button-container">
+            {props.loggedIn === false ? <div className="header__button-container">
               <Link to='/signup' className="header__link-signup">Регистрация</Link>
               <Link to='/signin' className="header__link-signin">
                 <button className="header__link-button" type="button">Войти</button>
               </Link>
-            </div>
+            </div> :
+              <>
+              <div className="header__button-container header__button-container_burger">
+                <Link to='/movies' className="header__link">Фильмы</Link>
+                <Link to='/saved-movies' className="header__link">Сохранённые фильмы</Link>
+                <Link to='/profile' className="header__link-account">
+                  <p className="header__button-text" type="button">Аккаунт</p>
+                  <div className="header__button-wrapper">
+                    <img className="header__button-img" alt="аватар" src={account} />
+                  </div>
+                </Link>
+              </div>
+              <div className="header__burger" onClick={openMenu}>
+                <span></span>
+              </div>
+              </>}
           </div>
         </header>
       </Route>

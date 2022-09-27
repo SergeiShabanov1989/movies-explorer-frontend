@@ -1,35 +1,88 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
-import { Route, Switch } from 'react-router-dom';
-import { movies, favoriteMovies } from "../../utils/utils";
+import Preloader from "../Preloader/Preloader";
+import {useState} from "react";
+import {useCurrentWidth} from "../../hooks/useCurrentWidth";
+import {
+  DESKTOP,
+  TABLET,
+  DESKTOP_CARD,
+  TABLET_CARD,
+  MOBILE_CARD
+} from "../../utils/utils";
 
-function MoviesCardList() {
+function MoviesCardList(props) {
+  const width = useCurrentWidth();
+  const [visibleMovieCount, setVisibleMovieCount] = useState(getInitialCount(width));
+
+  function loadMovie (width) {
+    if (width >= DESKTOP) {
+      return 4;
+    }
+    return 2;
+  }
+
+  function getInitialCount (width) {
+    if (width >= DESKTOP) {
+      return DESKTOP_CARD;
+    }
+    if (width >= TABLET) {
+      return TABLET_CARD;
+    }
+    return MOBILE_CARD;
+  }
+
+  const moviesArray = props.saved ? props.renderMovies : props.filteredMovies;
+
+  const isMovieLiked = (id) => {
+    const isLiked = props.savedMovies.find((savedMovie) => {
+      return savedMovie.movieId === id;
+    });
+
+    return Boolean(isLiked);
+  };
+
+  function loadMoviesMore () {
+    setVisibleMovieCount((prevCount) => prevCount + loadMovie(width));
+  }
+
   return (
     <>
       <section className="card-list">
         <div className="card-list__container">
-          <Switch>
-            <Route path="/movies">
+          {props.isSearchQuery ? <span className="card-list__error">Нужно ввести ключевое слово</span> :
+          props.isLoadListMovies ?
+              <Preloader/> :
               <div className="card-list__grid-container">
                 {
-                  movies.map((movie) => (
-                    <MoviesCard {...movie}/>
+                  moviesArray.slice(0, visibleMovieCount).map((movie) => (
+                    <MoviesCard
+                      picture={`${
+                        props.saved
+                          ? movie.image
+                          : `https://api.nomoreparties.co${movie.image.url}`
+                      } `}
+                      title={movie.nameRU}
+                      duration={movie.duration}
+                      key={movie.id || movie.movieId}
+                      movie={movie}
+                      saved={props.saved}
+                      deleteMovie={props.deleteMovie}
+                      trailerLink={movie.trailerLink}
+                      isLiked={isMovieLiked(movie.id)}
+                      setRenderMovies={props.setRenderMovies}
+                      setSavedMovies={props.setSavedMovies}
+                      savedMovies={props.savedMovies}
+                      setShowPopup={props.setShowPopup}
+                      setErrorMessage={props.setErrorMessage}
+                    />
                   ))
                 }
               </div>
-              <div className="card-list__pagination-container">
-                <button className="card-list__pagination" type="button">Ещё</button>
-              </div>
-            </Route>
-            <Route path="/saved-movies">
-              <div className="card-list__grid-container">
-                {
-                  favoriteMovies.map((movie) => (
-                    <MoviesCard {...movie}/>
-                  ))
-                }
-              </div>
-            </Route>
-          </Switch>
+            }
+          {visibleMovieCount < moviesArray.length &&
+            <div className="card-list__pagination-container">
+            <button className="card-list__pagination" onClick={loadMoviesMore} type="button">Ещё</button>
+          </div>}
         </div>
       </section>
     </>
