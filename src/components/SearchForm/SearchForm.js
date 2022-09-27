@@ -16,7 +16,6 @@ function SearchForm(props) {
     checkSearchSuccessful(foundMovies);
     localStorage.setItem("allFoundMovies", JSON.stringify(foundMovies));
     localStorage.setItem("searchQuery", searchQuery);
-    localStorage.setItem("shortMovie", props.shortMovie);
     props.setFilteredMovies(props.shortMovie ? foundMovies.filter((film) => film.duration <= 40) : foundMovies);
   }
 
@@ -36,7 +35,6 @@ function SearchForm(props) {
         }
       }
     } else {
-      localStorage.setItem("shortMoviesPage", JSON.stringify(!props.shortMovie));
       if (props.shortMovie) {
         props.setFilteredMovies(
           JSON.parse(localStorage.getItem("allFoundMovies")).filter(
@@ -111,9 +109,22 @@ function SearchForm(props) {
       props.setShortMovie(checked);
     } else {
     setChecked(false);
+    props.setShortMovie(false);
   }
   }, [location.pathname]);
 
+  // useEffect(() => {
+  //   if (location.pathname === '/movies') {
+  //     if (localStorage.shortMovieMoviesPage) {
+  //       setChecked(JSON.parse(localStorage.getItem("shortMovieMoviesPage")));
+  //     } else {
+  //       setChecked(false);
+  //     }
+  //   }
+  //
+  // }, []);
+
+  console.log(props.shortMovie)
   function handleInputChange(e) {
     setValue(e.target.value);
   }
