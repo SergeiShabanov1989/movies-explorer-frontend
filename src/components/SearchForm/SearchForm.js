@@ -113,18 +113,6 @@ function SearchForm(props) {
   }
   }, [location.pathname]);
 
-  // useEffect(() => {
-  //   if (location.pathname === '/movies') {
-  //     if (localStorage.shortMovieMoviesPage) {
-  //       setChecked(JSON.parse(localStorage.getItem("shortMovieMoviesPage")));
-  //     } else {
-  //       setChecked(false);
-  //     }
-  //   }
-  //
-  // }, []);
-
-  console.log(props.shortMovie)
   function handleInputChange(e) {
     setValue(e.target.value);
   }
